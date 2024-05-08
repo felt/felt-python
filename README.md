@@ -10,7 +10,7 @@ refreshing files and (Geo)DataFrames or updating layer styles and element proper
 ## Installation
 
 ```bash
-pip install felt-python
+pip install felt-python==0.0.1
 ```
 
 ## Usage
