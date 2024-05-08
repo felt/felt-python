@@ -1,0 +1,15 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0002143, 0.0002731]}, "properties": {"Integer": 3, "Float": 0.3, "String": "3", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0000729, 0.0000983]}, "properties": {"Integer": 5, "Float": 0.5, "String": "5", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0002533, 0.0000627]}, "properties": {"Integer": 9, "Float": 0.9, "String": "9", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-0.00023, 0.0001295]}, "properties": {"Integer": 4, "Float": 0.4, "String": "4", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0000161, -0.0001956]}, "properties": {"Integer": 2, "Float": 0.2, "String": "2", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0002644, -0.00016]}, "properties": {"Integer": 6, "Float": 0.6, "String": "6", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0000851, -0.0000242]}, "properties": {"Integer": 8, "Float": 0.8, "String": "8", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-0.0004638, -0.0000197]}, "properties": {"Integer": 1, "Float": 0.1, "String": "1", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-0.0002077, -0.0000564]}, "properties": {"Integer": 7, "Float": 0.7, "String": "7", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-0.0001454, -0.0001155]}, "properties": {"Integer": 10, "Float": 0.10, "String": "10", "Boolean": true}}
+    ]
+}
