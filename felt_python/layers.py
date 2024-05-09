@@ -3,8 +3,6 @@ import json
 import os
 import tempfile
 
-import geopandas as gpd
-import pandas as pd
 import requests
 
 from .api import (
@@ -73,18 +71,32 @@ def upload_file(
 
 def upload_dataframe(
     map_id: str,
-    dataframe: pd.DataFrame | gpd.GeoDataFrame,
+    dataframe: "pd.DataFrame",
     layer_name: str | None = None,
     api_token: str | None = None,
 ):
-    """Upload a (Geo)Pandas (Geo)DataFrame to a Felt map"""
+    """Upload a Pandas DataFrame to a Felt map"""
     with tempfile.TemporaryDirectory() as tempdir:
-        if isinstance(dataframe, gpd.GeoDataFrame):
-            file_name = os.path.join(tempdir, "geodataframe.gpkg")
-            dataframe.to_file(file_name)
-        else:
-            file_name = os.path.join(tempdir, "dataframe.csv")
-            dataframe.to_csv(file_name)
+        file_name = os.path.join(tempdir, "dataframe.csv")
+        dataframe.to_csv(file_name)
+        return upload_file(
+            map_id,
+            file_name,
+            layer_name,
+            api_token,
+        )
+
+
+def upload_geodataframe(
+    map_id: str,
+    geodataframe: "gpd.GeoDataFrame",
+    layer_name: str | None = None,
+    api_token: str | None = None,
+):
+    """Upload a GeoPandas GeoDataFrame to a Felt map"""
+    with tempfile.TemporaryDirectory() as tempdir:
+        file_name = os.path.join(tempdir, "geodataframe.gpkg")
+        geodataframe.to_file(file_name)
         return upload_file(
             map_id,
             file_name,

@@ -14,8 +14,6 @@ description = "The official Felt API client library"
 readme = "README.md"
 requires-python = ">=3.6"
 dependencies = [
-  "geopandas",
-  "pandas",
   "requests",
   "uritemplate",
 ]

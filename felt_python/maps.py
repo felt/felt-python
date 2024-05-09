@@ -18,7 +18,7 @@ def create_map(api_token: str | None = None, **json_args):
 
 def delete_map(map_id: str, api_token: str | None = None):
     """Delete a map"""
-    response = make_request(
+    make_request(
         url=MAPS_TEMPLATE.expand(map_id=map_id),
         method=requests.delete,
         api_token=api_token,

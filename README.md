@@ -49,19 +49,31 @@ upload_file(
     map_id=map_id,
     file_path="path/to/file.csv",
     layer_name="My new layer",
-    layer_type="point",
 )
 layer_groups = list_layers(map_id)
 layer_id = layer_groups[0]["relationships"]["datasets"]["data"][0]["id"]
 ```
 
-### Uploading a (Geo)DataFrame
+### Uploading a Pandas DataFrame
 ```python
-import geopandas as gpd
+import pandas as pd
 from felt_python import upload_dataframe
 
-gdf = gpd.read_file("path/to/file.shp")
+df = pd.read_csv("path/to/file.csv")
 upload_dataframe(
+    map_id=map_id,
+    dataframe=df,
+    layer_name="Felt <3 Pandas",
+)
+```
+
+### Uploading a GeoPandas GeoDataFrame
+```python
+import geopandas as gpd
+from felt_python import upload_geodataframe
+
+gdf = gpd.read_file("path/to/file.shp")
+upload_geodataframe(
     map_id=map_id,
     dataframe=gdf,
     layer_name="Felt <3 GeoPandas",

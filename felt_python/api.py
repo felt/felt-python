@@ -1,8 +1,10 @@
+"""Wrapper for API calls using requests"""
 import os
-import requests
 import typing
 
 from urllib.parse import urljoin
+
+import requests
 
 from uritemplate import URITemplate
 
@@ -37,10 +39,10 @@ def make_request(
     if not api_token:
         try:
             api_token = os.environ["FELT_API_TOKEN"]
-        except KeyError:
+        except KeyError as exc:
             raise AuthError(
                 "No API token found. Pass explicitly or set the FELT_API_TOKEN environment variable"
-            )
+            ) from exc
 
     headers = {"Authorization": f"Bearer {api_token}"}
     response = method(url, params=params, json=json, headers=headers)
