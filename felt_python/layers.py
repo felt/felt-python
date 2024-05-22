@@ -1,5 +1,4 @@
 """Layers"""
-import json
 import os
 import tempfile
 
@@ -8,11 +7,9 @@ import requests
 from .api import (
     make_request,
     LAYERS_TEMPLATE,
-    URL_IMPORT_TEMPLATE,
-    REFRESH_FILE_TEMPLATE,
-    REFRESH_URL_TEMPLATE,
+    REFRESH_TEMPLATE,
+    UPDATE_STYLE_TEMPLATE,
     UPLOAD_TEMPLATE,
-    LAYER_STYLE_TEMPLATE,
 )
 
 
@@ -32,10 +29,13 @@ def _request_and_upload(
     layer_name: str | None = None,
     api_token: str | None = None,
 ):
-    """Upload or refresh a file"""
-    json_payload = {"file_names": [file_name]}
-    if layer_name:
-        json_payload["name"] = layer_name
+    """Upload or refresh a file
+
+    Both upload_file and refresh_file_layer use this function to handle the
+    request and file upload. The only difference is that the upload endpoint
+    requires a layer name while the refresh endpoint does not.
+    """
+    json_payload = {"name": layer_name} if layer_name else None
     layer_response = make_request(
         url=url, method=requests.post, api_token=api_token, json=json_payload
     )
@@ -46,18 +46,18 @@ def _request_and_upload(
         "presigned_attributes"
     ]
     with open(file_name, "rb") as file_obj:
-        output = requests.post(
+        requests.post(
             url,
             # Order is important, file should come at the end
             files={**presigned_attributes, "file": file_obj},
         )
-    return output
+    return layer_response.json()["data"]
 
 
 def upload_file(
     map_id: str,
     file_name: str,
-    layer_name: str | None = None,
+    layer_name: str,
     api_token: str | None = None,
 ):
     """Upload a file to a Felt map"""
@@ -72,7 +72,7 @@ def upload_file(
 def upload_dataframe(
     map_id: str,
     dataframe: "pd.DataFrame",
-    layer_name: str | None = None,
+    layer_name: str,
     api_token: str | None = None,
 ):
     """Upload a Pandas DataFrame to a Felt map"""
@@ -90,7 +90,7 @@ def upload_dataframe(
 def upload_geodataframe(
     map_id: str,
     geodataframe: "gpd.GeoDataFrame",
-    layer_name: str | None = None,
+    layer_name: str,
     api_token: str | None = None,
 ):
     """Upload a GeoPandas GeoDataFrame to a Felt map"""
@@ -110,7 +110,7 @@ def refresh_file_layer(
 ):
     """Refresh a layer originated from a file upload"""
     return _request_and_upload(
-        url=REFRESH_FILE_TEMPLATE.expand(map_id=map_id, layer_id=layer_id),
+        url=REFRESH_TEMPLATE.expand(map_id=map_id, layer_id=layer_id),
         file_name=file_name,
         api_token=api_token,
     )
@@ -119,18 +119,18 @@ def refresh_file_layer(
 def upload_url(
     map_id: str,
     layer_url: str,
-    layer_name: str | None = None,
+    layer_name: str,
     api_token: str | None = None,
 ):
     """Upload a URL to a Felt map"""
-    json_payload = {"layer_url": layer_url}
-    if layer_name:
-        json_payload["name"] = layer_name
     layer_response = make_request(
-        url=URL_IMPORT_TEMPLATE.expand(map_id=map_id),
+        url=UPLOAD_TEMPLATE.expand(map_id=map_id),
         method=requests.post,
         api_token=api_token,
-        json=json_payload,
+        json={
+            "import_url": layer_url,
+            "name": layer_name,
+        },
     )
     return layer_response.json()["data"]
 
@@ -138,7 +138,7 @@ def upload_url(
 def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
     """Refresh a layer originated from a URL upload"""
     layer_response = make_request(
-        url=REFRESH_URL_TEMPLATE.expand(
+        url=REFRESH_TEMPLATE.expand(
             map_id=map_id,
             layer_id=layer_id,
         ),
@@ -148,14 +148,14 @@ def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
     return layer_response.json()["data"]
 
 
-def get_layer_style(
+def get_layer_details(
     map_id: str,
     layer_id: str,
     api_token: str | None = None,
 ):
     """Get style of a layer"""
     response = make_request(
-        url=LAYER_STYLE_TEMPLATE.expand(
+        url=LAYERS_TEMPLATE.expand(
             map_id=map_id,
             layer_id=layer_id,
         ),
@@ -173,12 +173,12 @@ def update_layer_style(
 ):
     """Style a layer"""
     response = make_request(
-        url=LAYER_STYLE_TEMPLATE.expand(
+        url=UPDATE_STYLE_TEMPLATE.expand(
             map_id=map_id,
             layer_id=layer_id,
         ),
-        method=requests.patch,
-        json={"style": json.dumps(style)},
+        method=requests.post,
+        json={"style": style},
         api_token=api_token,
     )
     return response.json()["data"]

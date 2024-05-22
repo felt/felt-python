@@ -11,20 +11,21 @@ from uritemplate import URITemplate
 from .exceptions import AuthError
 
 
-V1_URL = "https://felt.com/api/v1/"
-V2_URL = "https://felt.com/api/v2/"
-MAPS_TEMPLATE = URITemplate(urljoin(V2_URL, "maps{/map_id}"))
-LAYERS_TEMPLATE = URITemplate(urljoin(V1_URL, "maps{/map_id}/layers{/layer_id}"))
-UPLOAD_TEMPLATE = URITemplate(urljoin(V2_URL, "maps{/map_id}/upload"))
-URL_IMPORT_TEMPLATE = URITemplate(urljoin(V1_URL, "maps{/map_id}/layers/url_import"))
-REFRESH_FILE_TEMPLATE = URITemplate(
-    urljoin(V1_URL, "maps{/map_id}/refresh{/layer_id}/file")
+BASE_URL = "https://felt.com/api/v2/"
+MAPS_TEMPLATE = URITemplate(urljoin(BASE_URL, "maps{/map_id}"))
+LAYERS_TEMPLATE = URITemplate(urljoin(BASE_URL, "maps{/map_id}/layers{/layer_id}"))
+UPLOAD_TEMPLATE = URITemplate(urljoin(BASE_URL, "maps{/map_id}/upload"))
+REFRESH_TEMPLATE = URITemplate(
+    urljoin(BASE_URL, "maps{/map_id}/layers{/layer_id}/refresh")
 )
-REFRESH_URL_TEMPLATE = URITemplate(
-    urljoin(V1_URL, "maps{/map_id}/refresh{/layer_id}/url")
+UPDATE_STYLE_TEMPLATE = URITemplate(
+    urljoin(BASE_URL, "maps{/map_id}/layers{/layer_id}/update_style")
 )
-LAYER_STYLE_TEMPLATE = URITemplate(
-    urljoin(V1_URL, "maps{/map_id}/layers{/layer_id}/style")
+ELEMENTS_TEMPLATE = URITemplate(
+    urljoin(BASE_URL, "maps{/map_id}/elements{/element_id}")
+)
+ELEMENT_GROUPS_TEMPLATE = URITemplate(
+    urljoin(BASE_URL, "maps{/map_id}/element_groups{/element_group_id}")
 )
 
 

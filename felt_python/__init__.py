@@ -9,12 +9,20 @@ from felt_python.exceptions import AuthError
 from felt_python.layers import (
     list_layers,
     upload_file,
+    upload_geodataframe,
     upload_dataframe,
     upload_url,
     refresh_file_layer,
     refresh_url_layer,
-    get_layer_style,
+    get_layer_details,
     update_layer_style,
+)
+from felt_python.elements import (
+    list_elements,
+    list_element_groups,
+    list_elements_in_group,
+    post_elements,
+    delete_element,
 )
 
 __doc__ = """
@@ -35,11 +43,17 @@ __all__ = [
     "update_map",
     "list_layers",
     "upload_file",
+    "upload_geodataframe",
     "upload_dataframe",
     "upload_url",
     "refresh_file_layer",
     "refresh_url_layer",
-    "get_layer_style",
+    "get_layer_details",
     "update_layer_style",
     "AuthError",
+    "list_elements",
+    "list_element_groups",
+    "list_elements_in_group",
+    "post_elements",
+    "delete_element",
 ]
