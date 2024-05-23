@@ -1,12 +1,21 @@
 """Wrapper for API calls using requests"""
+
+import http.client
+import json as json_
 import os
 import typing
+import urllib.request
 
 from urllib.parse import urljoin
 
-import requests
-
 from uritemplate import URITemplate
+
+try:
+    import certifi
+except ImportError:
+    pass
+else:
+    os.putenv("SSL_CERT_FILE", certifi.where())
 
 from .exceptions import AuthError
 
@@ -31,11 +40,11 @@ ELEMENT_GROUPS_TEMPLATE = URITemplate(
 
 def make_request(
     url: str,
-    method: typing.Union[requests.get, requests.post, requests.patch, requests.delete],
+    method: typing.Literal["GET", "POST", "PATCH", "DELETE"],
     params: dict | None = None,
     json: dict | None = None,
     api_token: str | None = None,
-):
+) -> http.client.HTTPResponse:
     """Basic wrapper for requests that adds auth"""
     if not api_token:
         try:
@@ -45,8 +54,10 @@ def make_request(
                 "No API token found. Pass explicitly or set the FELT_API_TOKEN environment variable"
             ) from exc
 
-    headers = {"Authorization": f"Bearer {api_token}"}
-    response = method(url, params=params, json=json, headers=headers)
-    if not response.ok:
-        raise Exception(f"Request failed: {response.content}")
-    return response
+    data, headers = None, {"Authorization": f"Bearer {api_token}"}
+    if json is not None:
+        data = json_.dumps(json).encode("utf8")
+        headers["Content-Type"] = "application/json"
+
+    request = urllib.request.Request(url, data=data, headers=headers, method=method)
+    return urllib.request.urlopen(request)

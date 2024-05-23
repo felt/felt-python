@@ -1,8 +1,8 @@
 """Layers"""
+
+import json
 import os
 import tempfile
-
-import requests
 
 from .api import (
     make_request,
@@ -17,10 +17,10 @@ def list_layers(map_id: str, api_token: str | None = None):
     """List layers on a map"""
     response = make_request(
         url=LAYERS_TEMPLATE.expand(map_id=map_id),
-        method=requests.get,
+        method="GET",
         api_token=api_token,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]
 
 
 def _request_and_upload(
@@ -37,7 +37,7 @@ def _request_and_upload(
     """
     json_payload = {"name": layer_name} if layer_name else None
     layer_response = make_request(
-        url=url, method=requests.post, api_token=api_token, json=json_payload
+        url=url, method="POST", api_token=api_token, json=json_payload
     )
     presigned_upload = layer_response.json()
 
@@ -125,7 +125,7 @@ def upload_url(
     """Upload a URL to a Felt map"""
     layer_response = make_request(
         url=UPLOAD_TEMPLATE.expand(map_id=map_id),
-        method=requests.post,
+        method="POST",
         api_token=api_token,
         json={
             "import_url": layer_url,
@@ -142,7 +142,7 @@ def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
             map_id=map_id,
             layer_id=layer_id,
         ),
-        method=requests.post,
+        method="POST",
         api_token=api_token,
     )
     return layer_response.json()["data"]
@@ -159,10 +159,10 @@ def get_layer_details(
             map_id=map_id,
             layer_id=layer_id,
         ),
-        method=requests.get,
+        method="GET",
         api_token=api_token,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]
 
 
 def update_layer_style(
@@ -177,8 +177,8 @@ def update_layer_style(
             map_id=map_id,
             layer_id=layer_id,
         ),
-        method=requests.post,
+        method="POST",
         json={"style": style},
         api_token=api_token,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]

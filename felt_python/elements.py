@@ -1,7 +1,6 @@
 """Elements and element groups"""
-import json
 
-import requests
+import json
 
 from .api import (
     make_request,
@@ -14,20 +13,20 @@ def list_elements(map_id: str, api_token: str | None = None):
     """List all elements on a map"""
     response = make_request(
         url=ELEMENTS_TEMPLATE.expand(map_id=map_id),
-        method=requests.get,
+        method="GET",
         api_token=api_token,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]
 
 
 def list_element_groups(map_id: str, api_token: str | None = None):
     """List all element groups on a map"""
     response = make_request(
         url=ELEMENT_GROUPS_TEMPLATE.expand(map_id=map_id),
-        method=requests.get,
+        method="GET",
         api_token=api_token,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]
 
 
 def list_elements_in_group(
@@ -38,10 +37,10 @@ def list_elements_in_group(
         url=ELEMENT_GROUPS_TEMPLATE.expand(
             map_id=map_id, element_group_id=element_group_id
         ),
-        method=requests.get,
+        method="GET",
         api_token=api_token,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]
 
 
 def post_elements(map_id: str, geojson_feature_collection: dict | str):
@@ -55,15 +54,15 @@ def post_elements(map_id: str, geojson_feature_collection: dict | str):
         geojson_feature_collection = json.loads(geojson_feature_collection)
     response = make_request(
         url=ELEMENTS_TEMPLATE.expand(map_id=map_id),
-        method=requests.post,
+        method="POST",
         json=geojson_feature_collection,
     )
-    return response.json()["data"]
+    return json.load(response)["data"]
 
 
 def delete_element(map_id: str, element_id: str):
     """Delete an element"""
     make_request(
         url=ELEMENTS_TEMPLATE.expand(map_id=map_id, element_id=element_id),
-        method=requests.delete,
+        method="DELETE",
     )
