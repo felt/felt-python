@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "felt-python"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Álvaro Arredondo", email="alvaro@felt.com" },
   { name="Chris Loer", email="chris@felt.com" },
@@ -13,10 +13,7 @@ authors = [
 description = "The official Felt API client library"
 readme = "README.md"
 requires-python = ">=3.6"
-dependencies = [
-  "requests",
-  "uritemplate",
-]
+dependencies = []
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
