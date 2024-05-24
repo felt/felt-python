@@ -1,12 +1,12 @@
 # For now, hoist all functions to the top level
-from felt_python.maps import (
+from .maps import (
     create_map,
     delete_map,
     get_map_details,
     update_map,
 )
-from felt_python.exceptions import AuthError
-from felt_python.layers import (
+from .exceptions import AuthError
+from .layers import (
     list_layers,
     upload_file,
     upload_geodataframe,
@@ -17,7 +17,7 @@ from felt_python.layers import (
     get_layer_details,
     update_layer_style,
 )
-from felt_python.elements import (
+from .elements import (
     list_elements,
     list_element_groups,
     list_elements_in_group,
