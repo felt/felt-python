@@ -8,23 +8,27 @@ import typing
 import urllib.request
 import uuid
 
-from .api import (
-    make_request,
-    LAYERS_TEMPLATE,
-    REFRESH_TEMPLATE,
-    UPDATE_STYLE_TEMPLATE,
-    UPLOAD_TEMPLATE,
-)
+from urllib.parse import urljoin
+
+from .api import make_request, BASE_URL
+from .maps import MAP_TEMPLATE
+
+
+MAP_LAYERS_TEMPLATE = urljoin(BASE_URL, "maps/{map_id}/layers/")
+LAYER_TEMPLATE = urljoin(MAP_LAYERS_TEMPLATE, "{layer_id}/")
+REFRESH_TEMPLATE = urljoin(LAYER_TEMPLATE, "refresh")
+UPDATE_STYLE_TEMPLATE = urljoin(LAYER_TEMPLATE, "update_style")
+UPLOAD_TEMPLATE = urljoin(MAP_TEMPLATE, "upload")
 
 
 def list_layers(map_id: str, api_token: str | None = None):
     """List layers on a map"""
     response = make_request(
-        url=LAYERS_TEMPLATE.expand(map_id=map_id),
+        url=MAP_LAYERS_TEMPLATE.format(map_id=map_id),
         method="GET",
         api_token=api_token,
     )
-    return json.load(response)["data"]
+    return json.load(response)
 
 
 def _multipart_request(
@@ -65,10 +69,10 @@ def _request_and_upload(
     requires a layer name while the refresh endpoint does not.
     """
     json_payload = {"name": layer_name} if layer_name else None
-    layer_response = make_request(
+    response = make_request(
         url=url, method="POST", api_token=api_token, json=json_payload
     )
-    presigned_upload = json.load(layer_response)
+    presigned_upload = json.load(response)
     url = presigned_upload["url"]
     presigned_attributes = presigned_upload["presigned_attributes"]
     with open(file_name, "rb") as file_obj:
@@ -85,7 +89,7 @@ def upload_file(
 ):
     """Upload a file to a Felt map"""
     return _request_and_upload(
-        url=UPLOAD_TEMPLATE.expand(map_id=map_id),
+        url=UPLOAD_TEMPLATE.format(map_id=map_id),
         file_name=file_name,
         layer_name=layer_name,
         api_token=api_token,
@@ -133,7 +137,7 @@ def refresh_file_layer(
 ):
     """Refresh a layer originated from a file upload"""
     return _request_and_upload(
-        url=REFRESH_TEMPLATE.expand(map_id=map_id, layer_id=layer_id),
+        url=REFRESH_TEMPLATE.format(map_id=map_id, layer_id=layer_id),
         file_name=file_name,
         api_token=api_token,
     )
@@ -146,8 +150,8 @@ def upload_url(
     api_token: str | None = None,
 ):
     """Upload a URL to a Felt map"""
-    layer_response = make_request(
-        url=UPLOAD_TEMPLATE.expand(map_id=map_id),
+    response = make_request(
+        url=UPLOAD_TEMPLATE.format(map_id=map_id),
         method="POST",
         api_token=api_token,
         json={
@@ -155,20 +159,20 @@ def upload_url(
             "name": layer_name,
         },
     )
-    return layer_response.json()["data"]
+    return json.load(response)
 
 
 def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
     """Refresh a layer originated from a URL upload"""
-    layer_response = make_request(
-        url=REFRESH_TEMPLATE.expand(
+    response = make_request(
+        url=REFRESH_TEMPLATE.format(
             map_id=map_id,
             layer_id=layer_id,
         ),
         method="POST",
         api_token=api_token,
     )
-    return layer_response.json()["data"]
+    return json.load(response)
 
 
 def get_layer_details(
@@ -178,14 +182,14 @@ def get_layer_details(
 ):
     """Get style of a layer"""
     response = make_request(
-        url=LAYERS_TEMPLATE.expand(
+        url=LAYER_TEMPLATE.format(
             map_id=map_id,
             layer_id=layer_id,
         ),
         method="GET",
         api_token=api_token,
     )
-    return json.load(response)["data"]
+    return json.load(response)
 
 
 def update_layer_style(
@@ -196,7 +200,7 @@ def update_layer_style(
 ):
     """Style a layer"""
     response = make_request(
-        url=UPDATE_STYLE_TEMPLATE.expand(
+        url=UPDATE_STYLE_TEMPLATE.format(
             map_id=map_id,
             layer_id=layer_id,
         ),
@@ -204,4 +208,4 @@ def update_layer_style(
         json={"style": style},
         api_token=api_token,
     )
-    return json.load(response)["data"]
+    return json.load(response)

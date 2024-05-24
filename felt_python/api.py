@@ -6,9 +6,6 @@ import os
 import typing
 import urllib.request
 
-from urllib.parse import urljoin
-
-from uritemplate import URITemplate
 
 try:
     import certifi
@@ -21,21 +18,6 @@ from .exceptions import AuthError
 
 
 BASE_URL = "https://felt.com/api/v2/"
-MAPS_TEMPLATE = URITemplate(urljoin(BASE_URL, "maps{/map_id}"))
-LAYERS_TEMPLATE = URITemplate(urljoin(BASE_URL, "maps{/map_id}/layers{/layer_id}"))
-UPLOAD_TEMPLATE = URITemplate(urljoin(BASE_URL, "maps{/map_id}/upload"))
-REFRESH_TEMPLATE = URITemplate(
-    urljoin(BASE_URL, "maps{/map_id}/layers{/layer_id}/refresh")
-)
-UPDATE_STYLE_TEMPLATE = URITemplate(
-    urljoin(BASE_URL, "maps{/map_id}/layers{/layer_id}/update_style")
-)
-ELEMENTS_TEMPLATE = URITemplate(
-    urljoin(BASE_URL, "maps{/map_id}/elements{/element_id}")
-)
-ELEMENT_GROUPS_TEMPLATE = URITemplate(
-    urljoin(BASE_URL, "maps{/map_id}/element_groups{/element_group_id}")
-)
 
 
 def make_request(

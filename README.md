@@ -45,13 +45,12 @@ map_id = resp["id"]
 ```python
 from felt_python import upload_file, list_layers
 
-upload_file(
+upload = upload_file(
     map_id=map_id,
     file_path="path/to/file.csv",
     layer_name="My new layer",
 )
-layer_groups = list_layers(map_id)
-layer_id = layer_groups[0]["relationships"]["datasets"]["data"][0]["id"]
+layer_id = upload["layer_id"]
 ```
 
 ### Uploading a Pandas DataFrame
