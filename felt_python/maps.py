@@ -13,7 +13,7 @@ def create_map(api_token: str | None = None, **json_args):
         json=json_args,
         api_token=api_token,
     )
-    return json.load(response)["data"]
+    return json.load(response)
 
 
 def delete_map(map_id: str, api_token: str | None = None):

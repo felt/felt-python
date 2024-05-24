@@ -1,8 +1,12 @@
 """Layers"""
 
+import io
 import json
 import os
 import tempfile
+import typing
+import urllib.request
+import uuid
 
 from .api import (
     make_request,
@@ -23,6 +27,31 @@ def list_layers(map_id: str, api_token: str | None = None):
     return json.load(response)["data"]
 
 
+def _multipart_request(
+    url: str, presigned_attributes: dict[str, str], file_obj: typing.IO[bytes]
+) -> urllib.request.Request:
+    """Make a multipart/form-data request with the given file"""
+    boundary = "-" * 20 + str(uuid.uuid4())
+    headers = {"Content-Type": f'multipart/form-data; boundary="{boundary}"'}
+    fname = os.path.basename(file_obj.name)
+
+    data = io.BytesIO()
+    text = io.TextIOWrapper(data, encoding="latin-1")
+    for key, value in presigned_attributes.items():
+        text.write(f"--{boundary}\r\n")
+        text.write(f'Content-Disposition: form-data; name="{key}"\r\n\r\n')
+        text.write(f"{value}\r\n")
+    text.write(f"--{boundary}\r\n")
+    text.write(f'Content-Disposition: form-data; name="file"; filename="{fname}"\r\n')
+    text.write("Content-Type: application/octet-stream\r\n\r\n")
+    text.flush()
+    data.write(file_obj.read())
+    data.write(f"\r\n--{boundary}".encode("latin-1"))
+    body = data.getvalue()
+
+    return urllib.request.Request(url, data=body, headers=headers, method="POST")
+
+
 def _request_and_upload(
     url: str,
     file_name: str,
@@ -39,19 +68,13 @@ def _request_and_upload(
     layer_response = make_request(
         url=url, method="POST", api_token=api_token, json=json_payload
     )
-    presigned_upload = layer_response.json()
-
-    url = presigned_upload["data"]["attributes"]["url"]
-    presigned_attributes = presigned_upload["data"]["attributes"][
-        "presigned_attributes"
-    ]
+    presigned_upload = json.load(layer_response)
+    url = presigned_upload["url"]
+    presigned_attributes = presigned_upload["presigned_attributes"]
     with open(file_name, "rb") as file_obj:
-        requests.post(
-            url,
-            # Order is important, file should come at the end
-            files={**presigned_attributes, "file": file_obj},
-        )
-    return layer_response.json()["data"]
+        request = _multipart_request(url, presigned_attributes, file_obj)
+        urllib.request.urlopen(request)
+    return presigned_upload
 
 
 def upload_file(
