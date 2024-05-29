@@ -1,5 +1,15 @@
-(WIP) The official Python client for the Felt API
-===========================================
+# The official Python client for the Felt API
+
+[![PyPI][pypi_badge]][pypi_link]
+[![Binder][binder_badge]][binder_jupyterlab_url]
+[![open_in_colab][colab_badge]][colab_notebook_link]
+
+[pypi_badge]: https://badge.fury.io/py/felt-python.svg
+[pypi_link]: https://pypi.org/project/felt-python/
+[binder_badge]: https://mybinder.org/badge_logo.svg
+[binder_jupyterlab_url]: https://mybinder.org/v2/gh/felt/felt-python/HEAD
+[colab_badge]: https://colab.research.google.com/assets/colab-badge.svg
+[colab_notebook_link]: https://colab.research.google.com/github/felt/felt-python/blob/main
 
 **felt-python** is a Python client for the Felt API. It provides convenient wrappers for
 common operations like creating, deleting and updating maps and data layers.
@@ -107,3 +117,6 @@ update_layer_style(
     style=new_style,
 )
 ```
+
+## Support
+We are always eager to hear from you. Reach out to support@felt.com for all your Felt support needs.
