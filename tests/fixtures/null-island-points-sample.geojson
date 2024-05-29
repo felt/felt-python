@@ -1,0 +1,8 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0002143, 0.0002731]}, "properties": {"Integer": 3, "Float": 0.3, "String": "3", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0000729, 0.0000983]}, "properties": {"Integer": 5, "Float": 0.5, "String": "5", "Boolean": true}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.0002533, 0.0000627]}, "properties": {"Integer": 9, "Float": 0.9, "String": "9", "Boolean": true}}
+    ]
+}
