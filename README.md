@@ -28,8 +28,8 @@ pip install felt-python
 ### Authentication
 
 To authenticate with the Felt API, you need to provide your API token. You can either 
-pass it explicitly to function calls or set it in the `FELT_API_TOKEN` environment variable. You
-can use [Felt dashboard](https://felt.com/maps/latest/integrations) to create a new token.
+pass it explicitly to function calls or set it in the `FELT_API_TOKEN` environment variable.
+Use [the Felt dashboard](https://felt.com/maps/latest/integrations) to create a new token.
 
 ```python
 import os
