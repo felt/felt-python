@@ -19,6 +19,7 @@ LAYER_TEMPLATE = urljoin(MAP_LAYERS_TEMPLATE, "{layer_id}/")
 REFRESH_TEMPLATE = urljoin(LAYER_TEMPLATE, "refresh")
 UPDATE_STYLE_TEMPLATE = urljoin(LAYER_TEMPLATE, "update_style")
 UPLOAD_TEMPLATE = urljoin(MAP_TEMPLATE, "upload")
+EXPORT_TEMPLATE = urljoin(LAYER_TEMPLATE, "get_export_link")
 
 
 def list_layers(map_id: str, api_token: str | None = None):
@@ -209,3 +210,45 @@ def update_layer_style(
         api_token=api_token,
     )
     return json.load(response)
+
+
+def get_export_link(
+    map_id: str,
+    layer_id: str,
+    api_token: str | None = None,
+):
+    """Get a download link for a layer
+
+    Vector layers will be downloaded in GPKG format. Raster layers will be GeoTIFFs.
+    """
+    response = make_request(
+        url=EXPORT_TEMPLATE.format(
+            map_id=map_id,
+            layer_id=layer_id,
+        ),
+        method="GET",
+        api_token=api_token,
+    )
+    return json.load(response)["export_link"]
+
+
+def download_layer(
+    map_id: str,
+    layer_id: str,
+    file_name: str | None = None,
+    api_token: str | None = None,
+) -> str:
+    """Download a layer to a file.
+
+    Vector layers will be downloaded in GPKG format. Raster layers will be GeoTIFFs.
+    If a specific file name is not provided, the default file name will be saved to
+    the current working directory.
+    """
+    export_link = get_export_link(map_id, layer_id, api_token)
+    with urllib.request.urlopen(export_link) as response:
+        if file_name is None:
+            parsed_url = urllib.parse.urlparse(response.url)
+            file_name = os.path.basename(parsed_url.path)
+        with open(file_name, "wb") as file_obj:
+            file_obj.write(response.read())
+    return file_name
