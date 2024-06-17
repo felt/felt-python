@@ -16,6 +16,8 @@ from .layers import (
     refresh_url_layer,
     get_layer_details,
     update_layer_style,
+    get_export_link,
+    download_layer,
 )
 from .elements import (
     list_elements,
@@ -50,6 +52,8 @@ __all__ = [
     "refresh_url_layer",
     "get_layer_details",
     "update_layer_style",
+    "get_export_link",
+    "download_layer",
     "AuthError",
     "list_elements",
     "list_element_groups",
