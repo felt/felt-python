@@ -48,7 +48,7 @@ response = create_map(
     lon=-3,
     public_access="private",
 )
-map_id = resp["id"]
+map_id = response["id"]
 ```
 
 ### Uploading a file
@@ -58,7 +58,7 @@ from felt_python import upload_file, list_layers
 
 upload = upload_file(
     map_id=map_id,
-    file_path="path/to/file.csv",
+    file_name="path/to/file.csv",
     layer_name="My new layer",
 )
 layer_id = upload["layer_id"]
@@ -85,7 +85,7 @@ from felt_python import upload_geodataframe
 gdf = gpd.read_file("path/to/file.shp")
 upload_geodataframe(
     map_id=map_id,
-    dataframe=gdf,
+    geodataframe=gdf,
     layer_name="Felt <3 GeoPandas",
 )
 ```
