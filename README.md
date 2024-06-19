@@ -103,12 +103,12 @@ refresh_file_layer(
 
 ### Styling a layer
 ```python
-from felt_python import get_layer_style, update_layer_style
+from felt_python import get_layer_details, update_layer_style
 
-current_style = get_layer_style(
+current_style = get_layer_details(
     map_id=map_id,
     layer_id=layer_id,
-)
+)["style"]
 new_style = current_style.copy()
 new_style["color"] = "#FF0000"
 new_style["size"] = 20
