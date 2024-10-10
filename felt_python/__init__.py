@@ -25,6 +25,7 @@ from .elements import (
     list_elements_in_group,
     post_elements,
     delete_element,
+    post_element_group,
 )
 
 __doc__ = """
@@ -60,4 +61,5 @@ __all__ = [
     "list_elements_in_group",
     "post_elements",
     "delete_element",
+    "post_element_group",
 ]

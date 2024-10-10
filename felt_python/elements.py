@@ -70,3 +70,18 @@ def delete_element(map_id: str, element_id: str):
         url=ELEMENT_TEMPLATE.format(map_id=map_id, element_id=element_id),
         method="DELETE",
     )
+
+
+def post_element_group(
+    map_id: str,
+    json_element: dict | str,
+    api_token: str | None = None,
+):
+    """Post a new element group"""
+    response = make_request(
+        url=MAP_ELEMENT_GROUPS_TEMPLATE.format(map_id=map_id),
+        method="POST",
+        json=json_element,
+        api_token=api_token,
+    )
+    return json.load(response)
