@@ -9,6 +9,7 @@ from .api import make_request, BASE_URL
 
 MAPS_ENDPOINT = urljoin(BASE_URL, "maps/")
 MAP_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/")
+MAP_UPDATE_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/update")
 
 
 def create_map(api_token: str | None = None, **json_args):
@@ -44,8 +45,8 @@ def get_map_details(map_id: str, api_token: str | None = None):
 def update_map(map_id: str, new_title: str, api_token: str | None = None):
     """Update a map's details (title only for now)"""
     response = make_request(
-        url=MAP_TEMPLATE.format(map_id=map_id),
-        method="PATCH",
+        url=MAP_UPDATE_TEMPLATE.format(map_id=map_id),
+        method="POST",
         json={"title": new_title},
         api_token=api_token,
     )
