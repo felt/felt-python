@@ -55,7 +55,7 @@ def update_map(map_id: str, new_title: str, api_token: str | None = None):
 
 
 def move_map(map_id: str, project_id: str, api_token: str | None = None):
-    """Update a map's details (title only for now)"""
+    """Move a map to a different project"""
     response = make_request(
         url=MAP_MOVE_TEMPLATE.format(map_id=map_id),
         method="POST",
