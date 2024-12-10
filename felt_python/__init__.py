@@ -4,6 +4,7 @@ from .maps import (
     delete_map,
     get_map_details,
     update_map,
+    move_map
 )
 from .exceptions import AuthError
 from .layers import (
