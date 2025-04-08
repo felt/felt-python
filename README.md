@@ -23,7 +23,11 @@ refreshing files and (Geo)DataFrames or updating layer styles and element proper
 pip install felt-python
 ```
 
-## Usage
+## Documentation
+
+See the [docs](/docs) directory for Juypter notebooks with complete examples of using the API.
+
+## Basic Usage
 
 ### Authentication
 
@@ -51,7 +55,7 @@ response = create_map(
 map_id = response["id"]
 ```
 
-### Uploading a file
+### Upload anything
 
 ```python
 from felt_python import upload_file, list_layers
@@ -62,61 +66,6 @@ upload = upload_file(
     layer_name="My new layer",
 )
 layer_id = upload["layer_id"]
-```
-
-### Uploading a Pandas DataFrame
-```python
-import pandas as pd
-from felt_python import upload_dataframe
-
-df = pd.read_csv("path/to/file.csv")
-upload_dataframe(
-    map_id=map_id,
-    dataframe=df,
-    layer_name="Felt <3 Pandas",
-)
-```
-
-### Uploading a GeoPandas GeoDataFrame
-```python
-import geopandas as gpd
-from felt_python import upload_geodataframe
-
-gdf = gpd.read_file("path/to/file.shp")
-upload_geodataframe(
-    map_id=map_id,
-    geodataframe=gdf,
-    layer_name="Felt <3 GeoPandas",
-)
-```
-
-### Refreshing a layer
-```python
-from felt_python import refresh_file_layer
-
-refresh_file_layer(
-    map_id=map_id,
-    layer_id=layer_id,
-    file_path="path/to/new_file.csv",
-)
-```
-
-### Styling a layer
-```python
-from felt_python import get_layer_details, update_layer_style
-
-current_style = get_layer_details(
-    map_id=map_id,
-    layer_id=layer_id,
-)["style"]
-new_style = current_style.copy()
-new_style["color"] = "#FF0000"
-new_style["size"] = 20
-update_layer_style(
-    map_id=map_id,
-    layer_id=layer_id,
-    style=new_style,
-)
 ```
 
 ## Support
