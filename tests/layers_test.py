@@ -211,7 +211,7 @@ class FeltLayersTest(unittest.TestCase):
 
         self.assertIsNotNone(export_link)
         self.assertTrue(export_link.startswith("http"))
-        print(f"Export link obtained: {export_link}")
+        print("Export link obtained")
 
         # Step 9: Create custom export with filters
         print("Creating custom export...")
