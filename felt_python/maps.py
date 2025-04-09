@@ -6,14 +6,15 @@ from typing import Dict, Any, List, Union, Optional
 from urllib.parse import urljoin
 
 from .api import make_request, BASE_URL
+from .util import deprecated
 
 
-MAPS_ENDPOINT = urljoin(BASE_URL, "maps/")
-MAP_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/")
-MAP_UPDATE_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/update")
-MAP_MOVE_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/move")
-MAP_EMBED_TOKEN_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/embed_token")
-MAP_ADD_SOURCE_LAYER_TEMPLATE = urljoin(MAPS_ENDPOINT, "{map_id}/add_source_layer")
+MAPS = urljoin(BASE_URL, "maps/")
+MAP = urljoin(BASE_URL, "maps/{map_id}/")
+MAP_UPDATE = urljoin(BASE_URL, "maps/{map_id}/update")
+MAP_MOVE = urljoin(BASE_URL, "maps/{map_id}/move")
+MAP_EMBED_TOKEN = urljoin(BASE_URL, "maps/{map_id}/embed_token")
+MAP_ADD_SOURCE_LAYER = urljoin(BASE_URL, "maps/{map_id}/add_source_layer")
 
 
 def create_map(
@@ -77,7 +78,7 @@ def create_map(
         json_args["workspace_id"] = workspace_id
 
     response = make_request(
-        url=MAPS_ENDPOINT,
+        url=MAPS,
         method="POST",
         json=json_args,
         api_token=api_token,
@@ -88,20 +89,25 @@ def create_map(
 def delete_map(map_id: str, api_token: str | None = None):
     """Delete a map"""
     make_request(
-        url=MAP_TEMPLATE.format(map_id=map_id),
+        url=MAP.format(map_id=map_id),
         method="DELETE",
         api_token=api_token,
     )
 
 
-def get_map_details(map_id: str, api_token: str | None = None):
+def get_map(map_id: str, api_token: str | None = None):
     """Get details of a map"""
     response = make_request(
-        url=MAP_TEMPLATE.format(map_id=map_id),
+        url=MAP.format(map_id=map_id),
         method="GET",
         api_token=api_token,
     )
     return json.load(response)
+
+
+@deprecated(reason="Please use `get_map` instead")
+def get_map_details(map_id: str, api_token: str | None = None):
+    get_map(map_id, api_token)
 
 
 def update_map(
@@ -134,7 +140,7 @@ def update_map(
         json_args["public_access"] = public_access
 
     response = make_request(
-        url=MAP_UPDATE_TEMPLATE.format(map_id=map_id),
+        url=MAP_UPDATE.format(map_id=map_id),
         method="POST",
         json=json_args,
         api_token=api_token,
@@ -168,7 +174,7 @@ def move_map(
         json_args["folder_id"] = folder_id
 
     response = make_request(
-        url=MAP_MOVE_TEMPLATE.format(map_id=map_id),
+        url=MAP_MOVE.format(map_id=map_id),
         method="POST",
         json=json_args,
         api_token=api_token,
@@ -189,7 +195,7 @@ def create_embed_token(map_id: str, user_email: str = None, api_token: str = Non
     Returns:
         The created embed token with expiration time
     """
-    url = MAP_EMBED_TOKEN_TEMPLATE.format(map_id=map_id)
+    url = MAP_EMBED_TOKEN.format(map_id=map_id)
     if user_email:
         url = f"{url}?user_email={user_email}"
 
@@ -219,7 +225,7 @@ def add_source_layer(
         Acceptance status and links to the created resources
     """
     response = make_request(
-        url=MAP_ADD_SOURCE_LAYER_TEMPLATE.format(map_id=map_id),
+        url=MAP_ADD_SOURCE_LAYER.format(map_id=map_id),
         method="POST",
         json=source_layer_params,
         api_token=api_token,

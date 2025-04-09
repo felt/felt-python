@@ -8,15 +8,15 @@ from typing import Dict, Any, List, Union
 from .api import make_request, BASE_URL
 
 
-SOURCES_ENDPOINT = urljoin(BASE_URL, "sources/")
-SOURCE_TEMPLATE = urljoin(SOURCES_ENDPOINT, "{source_id}/")
-SOURCE_UPDATE_TEMPLATE = urljoin(SOURCES_ENDPOINT, "{source_id}/update")
-SOURCE_SYNC_TEMPLATE = urljoin(SOURCES_ENDPOINT, "{source_id}/sync")
+SOURCES = urljoin(BASE_URL, "sources")
+SOURCE = urljoin(BASE_URL, "sources/{source_id}")
+SOURCE_UPDATE = urljoin(BASE_URL, "sources/{source_id}/update")
+SOURCE_SYNC = urljoin(BASE_URL, "sources/{source_id}/sync")
 
 
 def list_sources(workspace_id: str | None = None, api_token: str | None = None):
     """List all sources accessible to the authenticated user"""
-    url = SOURCES_ENDPOINT
+    url = SOURCES
     if workspace_id:
         url = f"{url}?workspace_id={workspace_id}"
     response = make_request(
@@ -28,28 +28,28 @@ def list_sources(workspace_id: str | None = None, api_token: str | None = None):
 
 
 def create_source(
-    name: str, 
-    connection: Dict[str, Any], 
+    name: str,
+    connection: Dict[str, Any],
     permissions: Dict[str, Any] = None,
-    api_token: str | None = None
+    api_token: str | None = None,
 ):
     """Create a new source
-    
+
     Args:
         name: The name of the source
         connection: Connection details - varies by source type
-        permissions: Optional permissions configuration 
+        permissions: Optional permissions configuration
         api_token: Optional API token
-    
+
     Returns:
         The created source reference
     """
     json_payload = {"name": name, "connection": connection}
     if permissions:
         json_payload["permissions"] = permissions
-        
+
     response = make_request(
-        url=SOURCES_ENDPOINT,
+        url=SOURCES,
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -57,10 +57,10 @@ def create_source(
     return json.load(response)
 
 
-def get_source_details(source_id: str, api_token: str | None = None):
+def get_source(source_id: str, api_token: str | None = None):
     """Get details of a source"""
     response = make_request(
-        url=SOURCE_TEMPLATE.format(source_id=source_id),
+        url=SOURCE.format(source_id=source_id),
         method="GET",
         api_token=api_token,
     )
@@ -68,21 +68,21 @@ def get_source_details(source_id: str, api_token: str | None = None):
 
 
 def update_source(
-    source_id: str, 
+    source_id: str,
     name: str | None = None,
     connection: Dict[str, Any] | None = None,
     permissions: Dict[str, Any] | None = None,
-    api_token: str | None = None
+    api_token: str | None = None,
 ):
     """Update a source's details
-    
+
     Args:
         source_id: The ID of the source to update
         name: Optional new name for the source
         connection: Optional updated connection details
         permissions: Optional updated permissions configuration
         api_token: Optional API token
-    
+
     Returns:
         The updated source reference
     """
@@ -93,9 +93,9 @@ def update_source(
         json_payload["connection"] = connection
     if permissions is not None:
         json_payload["permissions"] = permissions
-        
+
     response = make_request(
-        url=SOURCE_UPDATE_TEMPLATE.format(source_id=source_id),
+        url=SOURCE_UPDATE.format(source_id=source_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -106,7 +106,7 @@ def update_source(
 def delete_source(source_id: str, api_token: str | None = None):
     """Delete a source"""
     make_request(
-        url=SOURCE_TEMPLATE.format(source_id=source_id),
+        url=SOURCE.format(source_id=source_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -114,12 +114,12 @@ def delete_source(source_id: str, api_token: str | None = None):
 
 def sync_source(source_id: str, api_token: str | None = None):
     """Trigger synchronization of a source
-    
+
     Returns:
         The source reference with synchronization status
     """
     response = make_request(
-        url=SOURCE_SYNC_TEMPLATE.format(source_id=source_id),
+        url=SOURCE_SYNC.format(source_id=source_id),
         method="POST",
         api_token=api_token,
     )

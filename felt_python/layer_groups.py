@@ -8,9 +8,11 @@ from urllib.parse import urljoin
 from .api import make_request, BASE_URL
 
 
-MAP_LAYER_GROUPS_TEMPLATE = urljoin(BASE_URL, "maps/{map_id}/layer_groups/")
-LAYER_GROUP_TEMPLATE = urljoin(MAP_LAYER_GROUPS_TEMPLATE, "{layer_group_id}")
-PUBLISH_LAYER_GROUP_TEMPLATE = urljoin(LAYER_GROUP_TEMPLATE, "/publish")
+GROUPS = urljoin(BASE_URL, "maps/{map_id}/layer_groups/")
+GROUP = urljoin(BASE_URL, "maps/{map_id}/layer_groups/{layer_group_id}")
+GROUPS_PUBLISH = urljoin(
+    BASE_URL, "maps/{map_id}/layer_groups/{layer_group_id}/publish"
+)
 
 
 def list_layer_groups(map_id: str, api_token: str | None = None):
@@ -24,14 +26,14 @@ def list_layer_groups(map_id: str, api_token: str | None = None):
         List of layer groups
     """
     response = make_request(
-        url=MAP_LAYER_GROUPS_TEMPLATE.format(map_id=map_id),
+        url=GROUPS.format(map_id=map_id),
         method="GET",
         api_token=api_token,
     )
     return json.load(response)
 
 
-def get_layer_group_details(
+def get_layer_group(
     map_id: str,
     layer_group_id: str,
     api_token: str | None = None,
@@ -47,10 +49,7 @@ def get_layer_group_details(
         Layer group details
     """
     response = make_request(
-        url=LAYER_GROUP_TEMPLATE.format(
-            map_id=map_id,
-            layer_group_id=layer_group_id,
-        ),
+        url=GROUP.format(map_id=map_id, layer_group_id=layer_group_id),
         method="GET",
         api_token=api_token,
     )
@@ -75,7 +74,7 @@ def update_layer_groups(
         The updated layer groups
     """
     response = make_request(
-        url=MAP_LAYER_GROUPS_TEMPLATE.format(map_id=map_id),
+        url=GROUPS.format(map_id=map_id),
         method="POST",
         json=layer_group_params_list,
         api_token=api_token,
@@ -96,10 +95,7 @@ def delete_layer_group(
         api_token: Optional API token
     """
     make_request(
-        url=LAYER_GROUP_TEMPLATE.format(
-            map_id=map_id,
-            layer_group_id=layer_group_id,
-        ),
+        url=GROUP.format(map_id=map_id, layer_group_id=layer_group_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -127,10 +123,7 @@ def publish_layer_group(
         json_payload["name"] = name
 
     response = make_request(
-        url=PUBLISH_LAYER_GROUP_TEMPLATE.format(
-            map_id=map_id,
-            layer_group_id=layer_group_id,
-        ),
+        url=GROUPS_PUBLISH.format(map_id=map_id, layer_group_id=layer_group_id),
         method="POST",
         json=json_payload,
         api_token=api_token,

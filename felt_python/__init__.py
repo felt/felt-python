@@ -2,11 +2,13 @@
 from .maps import (
     create_map,
     delete_map,
-    get_map_details,
+    get_map,
     update_map,
     move_map,
     create_embed_token,
     add_source_layer,
+    # Deprecated
+    get_map_details,
 )
 from .exceptions import AuthError
 from .layers import (
@@ -17,7 +19,7 @@ from .layers import (
     upload_url,
     refresh_file_layer,
     refresh_url_layer,
-    get_layer_details,
+    get_layer,
     update_layer_style,
     get_export_link,
     download_layer,
@@ -42,7 +44,7 @@ from .elements import (
 )
 from .layer_groups import (
     list_layer_groups,
-    get_layer_group_details,
+    get_layer_group,
     update_layer_groups,
     delete_layer_group,
     publish_layer_group,
@@ -50,14 +52,14 @@ from .layer_groups import (
 from .projects import (
     list_projects,
     create_project,
-    get_project_details,
+    get_project,
     update_project,
     delete_project,
 )
 from .sources import (
     list_sources,
     create_source,
-    get_source_details,
+    get_source,
     update_source,
     delete_source,
     sync_source,
@@ -81,7 +83,6 @@ __all__ = [
     # Maps
     "create_map",
     "delete_map",
-    "get_map_details",
     "update_map",
     "move_map",
     "create_embed_token",
@@ -94,7 +95,7 @@ __all__ = [
     "upload_url",
     "refresh_file_layer",
     "refresh_url_layer",
-    "get_layer_details",
+    "get_layer",
     "update_layer_style",
     "get_export_link",
     "download_layer",
@@ -106,7 +107,7 @@ __all__ = [
     "duplicate_layers",
     # Layer groups
     "list_layer_groups",
-    "get_layer_group_details",
+    "get_layer_group",
     "update_layer_groups",
     "delete_layer_group",
     "publish_layer_group",
@@ -117,19 +118,16 @@ __all__ = [
     "upsert_elements",
     "delete_element",
     "create_element_groups",
-    # Elements deprecated:
-    "post_elements",
-    "post_element_group",
     # Projects
     "list_projects",
     "create_project",
-    "get_project_details",
+    "get_project",
     "update_project",
     "delete_project",
     # Sources
     "list_sources",
     "create_source",
-    "get_source_details",
+    "get_source",
     "update_source",
     "delete_source",
     "sync_source",
@@ -143,4 +141,8 @@ __all__ = [
     "get_current_user",
     # Exceptions
     "AuthError",
+    # Deprecated
+    "post_elements",
+    "post_element_group",
+    "get_map_details",
 ]

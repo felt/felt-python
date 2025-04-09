@@ -9,10 +9,10 @@ from .api import make_request, BASE_URL
 from .util import deprecated
 
 
-MAP_ELEMENTS_TEMPLATE = urljoin(BASE_URL, "maps/{map_id}/elements/")
-ELEMENT_TEMPLATE = urljoin(MAP_ELEMENTS_TEMPLATE, "{element_id}")
-MAP_ELEMENT_GROUPS_TEMPLATE = urljoin(BASE_URL, "maps/{map_id}/element_groups/")
-ELEMENT_GROUP_TEMPLATE = urljoin(MAP_ELEMENT_GROUPS_TEMPLATE, "{element_group_id}")
+ELEMENTS = urljoin(BASE_URL, "maps/{map_id}/elements")
+ELEMENT = urljoin(BASE_URL, "maps/{map_id}/elements/{element_id}")
+ELEMENT_GROUPS = urljoin(BASE_URL, "maps/{map_id}/element_groups")
+ELEMENT_GROUP = urljoin(BASE_URL, "maps/{map_id}/element_groups/{element_group_id}")
 
 
 def list_elements(map_id: str, api_token: str | None = None):
@@ -26,7 +26,7 @@ def list_elements(map_id: str, api_token: str | None = None):
         GeoJSON FeatureCollection of all elements
     """
     response = make_request(
-        url=MAP_ELEMENTS_TEMPLATE.format(map_id=map_id),
+        url=ELEMENTS.format(map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -44,7 +44,7 @@ def list_element_groups(map_id: str, api_token: str | None = None):
         List of element groups
     """
     response = make_request(
-        url=MAP_ELEMENT_GROUPS_TEMPLATE.format(map_id=map_id),
+        url=ELEMENT_GROUPS.format(map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -65,9 +65,7 @@ def show_element_group(
         GeoJSON FeatureCollection of all elements in the group
     """
     response = make_request(
-        url=ELEMENT_GROUP_TEMPLATE.format(
-            map_id=map_id, element_group_id=element_group_id
-        ),
+        url=ELEMENT_GROUP.format(map_id=map_id, element_group_id=element_group_id),
         method="GET",
         api_token=api_token,
     )
@@ -108,7 +106,7 @@ def upsert_elements(
     if isinstance(geojson_feature_collection, str):
         geojson_feature_collection = json.loads(geojson_feature_collection)
     response = make_request(
-        url=MAP_ELEMENTS_TEMPLATE.format(map_id=map_id),
+        url=ELEMENTS.format(map_id=map_id),
         method="POST",
         json=geojson_feature_collection,
         api_token=api_token,
@@ -125,7 +123,7 @@ def delete_element(map_id: str, element_id: str, api_token: str | None = None):
         api_token: Optional API token
     """
     make_request(
-        url=ELEMENT_TEMPLATE.format(map_id=map_id, element_id=element_id),
+        url=ELEMENT.format(map_id=map_id, element_id=element_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -156,7 +154,7 @@ def create_element_groups(
         The created or updated element groups
     """
     response = make_request(
-        url=MAP_ELEMENT_GROUPS_TEMPLATE.format(map_id=map_id),
+        url=ELEMENT_GROUPS.format(map_id=map_id),
         method="POST",
         json=element_groups,
         api_token=api_token,
