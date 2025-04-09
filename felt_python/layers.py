@@ -19,11 +19,11 @@ LAYER = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}")
 LAYER_REFRESH = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/refresh")
 LAYER_UPDATE_STYLE = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/update_style")
 LAYER_UPLOAD = urljoin(BASE_URL, "maps/{map_id}/upload")
-LAYER_EXPORT = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/get_export_link")
+LAYER_EXPORT_LINK = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/get_export_link")
 LAYER_PUBLISH = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/publish")
-LAYER_EXPORT = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/custom_export")
-LAYER_STATUS = urljoin(
-    BASE_URL, "maps/{map_id}/layers/{layer_id}/custom_export/{export_id}"
+LAYER_CUSTOM_EXPORT = urljoin(BASE_URL, "maps/{map_id}/layers/{layer_id}/custom_export")
+LAYER_CUSTOM_EXPORT_STATUS = urljoin(
+    BASE_URL, "maps/{map_id}/layers/{layer_id}/custom_exports/{export_id}"
 )
 LAYER_DUPLICATE = urljoin(BASE_URL, "duplicate_layers")
 
@@ -293,10 +293,7 @@ def get_export_link(
     Vector layers will be downloaded in GPKG format. Raster layers will be GeoTIFFs.
     """
     response = make_request(
-        url=LAYER_EXPORT.format(
-            map_id=map_id,
-            layer_id=layer_id,
-        ),
+        url=LAYER_EXPORT_LINK.format(map_id=map_id, layer_id=layer_id),
         method="GET",
         api_token=api_token,
     )
@@ -359,10 +356,7 @@ def delete_layer(
 ):
     """Delete a layer from a map"""
     make_request(
-        url=LAYER.format(
-            map_id=map_id,
-            layer_id=layer_id,
-        ),
+        url=LAYER.format(map_id=map_id, layer_id=layer_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -390,10 +384,7 @@ def publish_layer(
         json_payload["name"] = name
 
     response = make_request(
-        url=LAYER_PUBLISH.format(
-            map_id=map_id,
-            layer_id=layer_id,
-        ),
+        url=LAYER_PUBLISH.format(map_id=map_id, layer_id=layer_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -433,10 +424,7 @@ def create_custom_export(
         json_payload["filters"] = filters
 
     response = make_request(
-        url=LAYER_EXPORT.format(
-            map_id=map_id,
-            layer_id=layer_id,
-        ),
+        url=LAYER_CUSTOM_EXPORT.format(map_id=map_id, layer_id=layer_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -462,7 +450,7 @@ def get_custom_export_status(
         Export status including download URL when complete
     """
     response = make_request(
-        url=LAYER_STATUS.format(
+        url=LAYER_CUSTOM_EXPORT_STATUS.format(
             map_id=map_id,
             layer_id=layer_id,
             export_id=export_id,

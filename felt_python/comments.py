@@ -9,7 +9,7 @@ from .api import make_request, BASE_URL
 
 COMMENT = urljoin(BASE_URL, "maps/{map_id}/comments/{comment_id}")
 COMMENT_RESOLVE = urljoin(BASE_URL, "maps/{map_id}/comments/{comment_id}/resolve")
-COMMENT_EXPORT = urljoin(BASE_URL, "maps/{map_id}/comments/{comment_id}/export")
+COMMENT_EXPORT = urljoin(BASE_URL, "maps/{map_id}/comments/export")
 
 
 def export_comments(map_id: str, format: str = "json", api_token: str | None = None):

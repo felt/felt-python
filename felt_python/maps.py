@@ -9,8 +9,8 @@ from .api import make_request, BASE_URL
 from .util import deprecated
 
 
-MAPS = urljoin(BASE_URL, "maps/")
-MAP = urljoin(BASE_URL, "maps/{map_id}/")
+MAPS = urljoin(BASE_URL, "maps")
+MAP = urljoin(BASE_URL, "maps/{map_id}")
 MAP_UPDATE = urljoin(BASE_URL, "maps/{map_id}/update")
 MAP_MOVE = urljoin(BASE_URL, "maps/{map_id}/move")
 MAP_EMBED_TOKEN = urljoin(BASE_URL, "maps/{map_id}/embed_token")

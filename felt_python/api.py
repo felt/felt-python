@@ -5,7 +5,7 @@ import json as json_
 import os
 import typing
 import urllib.request
-from importlib.metadata import version
+from importlib.metadata import version, PackageNotFoundError
 
 try:
     import certifi
@@ -35,9 +35,14 @@ def make_request(
                 "No API token found. Pass explicitly or set the FELT_API_TOKEN environment variable"
             ) from exc
 
+    try:
+        package_version = version("felt_python")
+    except PackageNotFoundError:
+        package_version = "local"
+
     data, headers = None, {
         "Authorization": f"Bearer {api_token}",
-        "User-Agent": f"felt-python/{version('felt_python')}",
+        "User-Agent": f"felt-python/{package_version}",
     }
     if json is not None:
         data = json_.dumps(json).encode("utf8")

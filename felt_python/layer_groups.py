@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 from .api import make_request, BASE_URL
 
 
-GROUPS = urljoin(BASE_URL, "maps/{map_id}/layer_groups/")
+GROUPS = urljoin(BASE_URL, "maps/{map_id}/layer_groups")
 GROUP = urljoin(BASE_URL, "maps/{map_id}/layer_groups/{layer_group_id}")
 GROUPS_PUBLISH = urljoin(
     BASE_URL, "maps/{map_id}/layer_groups/{layer_group_id}/publish"
