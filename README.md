@@ -41,7 +41,7 @@ import os
 os.environ["FELT_API_TOKEN"] = "YOUR_API_TOKEN"
 ```
 
-### Creating a map
+### Create a map
 
 ```python
 from felt_python import create_map
@@ -58,7 +58,7 @@ map_id = response["id"]
 ### Upload anything
 
 ```python
-from felt_python import upload_file, list_layers
+from felt_python import upload_file
 
 upload = upload_file(
     map_id=map_id,
