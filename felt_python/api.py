@@ -17,7 +17,7 @@ else:
 from .exceptions import AuthError
 
 
-BASE_URL = "https://felt.com/api/v2/"
+BASE_URL = os.getenv("FELT_BASE_URL", "https://felt.com/api/v2/")
 
 
 def make_request(
