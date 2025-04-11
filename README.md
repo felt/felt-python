@@ -23,7 +23,11 @@ refreshing files and (Geo)DataFrames or updating layer styles and element proper
 pip install felt-python
 ```
 
-## Usage
+## Notebooks
+
+See the [notebooks](/notebooks) directory for Juypter notebooks with complete examples of using the API.
+
+## Basic Usage
 
 ### Authentication
 
@@ -37,7 +41,7 @@ import os
 os.environ["FELT_API_TOKEN"] = "YOUR_API_TOKEN"
 ```
 
-### Creating a map
+### Create a map
 
 ```python
 from felt_python import create_map
@@ -51,10 +55,10 @@ response = create_map(
 map_id = response["id"]
 ```
 
-### Uploading a file
+### Upload anything
 
 ```python
-from felt_python import upload_file, list_layers
+from felt_python import upload_file
 
 upload = upload_file(
     map_id=map_id,
@@ -103,9 +107,9 @@ refresh_file_layer(
 
 ### Styling a layer
 ```python
-from felt_python import get_layer_details, update_layer_style
+from felt_python import get_layer, update_layer_style
 
-current_style = get_layer_details(
+current_style = get_layer(
     map_id=map_id,
     layer_id=layer_id,
 )["style"]
