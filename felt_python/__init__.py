@@ -35,7 +35,7 @@ from .elements import (
     list_element_groups,
     upsert_elements,
     delete_element,
-    show_element_group,
+    get_element_group,
     create_element_groups,
     # Deprecated:
     post_elements,

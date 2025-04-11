@@ -1,7 +1,6 @@
 """Elements and element groups"""
 
 import json
-from typing import Dict, Any, List, Union
 
 from urllib.parse import urljoin
 
@@ -51,10 +50,8 @@ def list_element_groups(map_id: str, api_token: str | None = None):
     return json.load(response)
 
 
-def show_element_group(
-    map_id: str, element_group_id: str, api_token: str | None = None
-):
-    """Show all elements in a group
+def get_element_group(map_id: str, element_group_id: str, api_token: str | None = None):
+    """Get contents of an element group
 
     Args:
         map_id: The ID of the map containing the group
@@ -72,11 +69,11 @@ def show_element_group(
     return json.load(response)
 
 
-@deprecated(reason="Please use `show_element_group` instead")
+@deprecated(reason="Please use `get_element_group` instead")
 def list_elements_in_group(
     map_id: str, element_group_id: str, api_token: str | None = None
 ):
-    show_element_group(map_id, element_group_id, api_token)
+    get_element_group(map_id, element_group_id, api_token)
 
 
 @deprecated(reason="Please use `upsert_elements` instead")
@@ -140,7 +137,7 @@ def post_element_group(
 
 def create_element_groups(
     map_id: str,
-    element_groups: List[Dict[str, Any]],
+    element_groups: list[dict[str, str]],
     api_token: str | None = None,
 ):
     """Post multiple element groups

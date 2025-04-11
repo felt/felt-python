@@ -1,7 +1,6 @@
 """Maps"""
 
 import json
-from typing import Dict, Any, List, Union, Optional
 
 from urllib.parse import urljoin
 
@@ -25,7 +24,7 @@ def create_map(
     lat: float = None,
     lon: float = None,
     zoom: float = None,
-    layer_urls: List[str] = None,
+    layer_urls: list[str] = None,
     workspace_id: str = None,
     api_token: str = None,
 ):
@@ -208,7 +207,7 @@ def create_embed_token(map_id: str, user_email: str = None, api_token: str = Non
 
 
 def add_source_layer(
-    map_id: str, source_layer_params: Dict[str, Any], api_token: str = None
+    map_id: str, source_layer_params: dict[str, str], api_token: str = None
 ):
     """Add a layer from a source to a map
 

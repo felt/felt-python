@@ -3,7 +3,6 @@
 import json
 
 from urllib.parse import urljoin
-from typing import Dict, Any, List, Union
 
 from .api import make_request, BASE_URL
 
@@ -29,8 +28,8 @@ def list_sources(workspace_id: str | None = None, api_token: str | None = None):
 
 def create_source(
     name: str,
-    connection: Dict[str, Any],
-    permissions: Dict[str, Any] = None,
+    connection: dict[str, str],
+    permissions: dict[str, str] = None,
     api_token: str | None = None,
 ):
     """Create a new source
@@ -70,8 +69,8 @@ def get_source(source_id: str, api_token: str | None = None):
 def update_source(
     source_id: str,
     name: str | None = None,
-    connection: Dict[str, Any] | None = None,
-    permissions: Dict[str, Any] | None = None,
+    connection: dict[str, str] | None = None,
+    permissions: dict[str, str] | None = None,
     api_token: str | None = None,
 ):
     """Update a source's details

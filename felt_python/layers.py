@@ -7,7 +7,7 @@ import tempfile
 import typing
 import urllib.request
 import uuid
-from typing import Dict, Any, List, Union, Optional
+import typing
 
 from urllib.parse import urljoin
 
@@ -38,37 +38,12 @@ def list_layers(map_id: str, api_token: str | None = None):
     return json.load(response)
 
 
-def _multipart_request(
-    url: str, presigned_attributes: dict[str, str], file_obj: typing.IO[bytes]
-) -> urllib.request.Request:
-    """Make a multipart/form-data request with the given file"""
-    boundary = "-" * 20 + str(uuid.uuid4())
-    headers = {"Content-Type": f'multipart/form-data; boundary="{boundary}"'}
-    fname = os.path.basename(file_obj.name)
-
-    data = io.BytesIO()
-    text = io.TextIOWrapper(data, encoding="latin-1")
-    for key, value in presigned_attributes.items():
-        text.write(f"--{boundary}\r\n")
-        text.write(f'Content-Disposition: form-data; name="{key}"\r\n\r\n')
-        text.write(f"{value}\r\n")
-    text.write(f"--{boundary}\r\n")
-    text.write(f'Content-Disposition: form-data; name="file"; filename="{fname}"\r\n')
-    text.write("Content-Type: application/octet-stream\r\n\r\n")
-    text.flush()
-    data.write(file_obj.read())
-    data.write(f"\r\n--{boundary}".encode("latin-1"))
-    body = data.getvalue()
-
-    return urllib.request.Request(url, data=body, headers=headers, method="POST")
-
-
 def upload_file(
     map_id: str,
     file_name: str,
     layer_name: str,
-    metadata: Dict[str, Any] = None,
-    hints: List[Dict[str, Any]] = None,
+    metadata: dict[str, str] = None,
+    hints: list[dict[str, str]] = None,
     lat: float = None,
     lng: float = None,
     zoom: float = None,
@@ -109,23 +84,16 @@ def upload_file(
         api_token=api_token,
         json=json_payload,
     )
-    presigned_upload = json.load(response)
-    url = presigned_upload["url"]
-    presigned_attributes = presigned_upload["presigned_attributes"]
 
-    with open(file_name, "rb") as file_obj:
-        request = _multipart_request(url, presigned_attributes, file_obj)
-        urllib.request.urlopen(request)
-
-    return presigned_upload
+    return _upload_file(json.load(response), file_name)
 
 
 def upload_dataframe(
     map_id: str,
     dataframe: "pd.DataFrame",
     layer_name: str,
-    metadata: Dict[str, Any] = None,
-    hints: List[Dict[str, Any]] = None,
+    metadata: dict[str, str] = None,
+    hints: list[dict[str, str]] = None,
     api_token: str | None = None,
 ):
     """Upload a Pandas DataFrame to a Felt map"""
@@ -146,8 +114,8 @@ def upload_geodataframe(
     map_id: str,
     geodataframe: "gpd.GeoDataFrame",
     layer_name: str,
-    metadata: Dict[str, Any] = None,
-    hints: List[Dict[str, Any]] = None,
+    metadata: dict[str, str] = None,
+    hints: list[dict[str, str]] = None,
     api_token: str | None = None,
 ):
     """Upload a GeoPandas GeoDataFrame to a Felt map"""
@@ -183,23 +151,15 @@ def refresh_file_layer(
         method="POST",
         api_token=api_token,
     )
-    presigned_upload = json.load(response)
-    url = presigned_upload["url"]
-    presigned_attributes = presigned_upload["presigned_attributes"]
-
-    with open(file_name, "rb") as file_obj:
-        request = _multipart_request(url, presigned_attributes, file_obj)
-        urllib.request.urlopen(request)
-
-    return presigned_upload
+    return _upload_file(json.load(response), file_name)
 
 
 def upload_url(
     map_id: str,
     layer_url: str,
     layer_name: str,
-    metadata: Dict[str, Any] = None,
-    hints: List[Dict[str, Any]] = None,
+    metadata: dict[str, str] = None,
+    hints: list[dict[str, str]] = None,
     api_token: str | None = None,
 ):
     """Upload a URL to a Felt map
@@ -324,7 +284,7 @@ def download_layer(
 
 def update_layers(
     map_id: str,
-    layer_params_list: List[Dict[str, Any]],
+    layer_params_list: list[dict[str, object]],
     api_token: str | None = None,
 ):
     """Update multiple layers at once
@@ -396,7 +356,7 @@ def create_custom_export(
     map_id: str,
     layer_id: str,
     output_format: str,
-    filters: List[Dict[str, Any]] = None,
+    filters: list = None,
     email_on_completion: bool = True,
     api_token: str | None = None,
 ):
@@ -462,7 +422,7 @@ def get_custom_export_status(
 
 
 def duplicate_layers(
-    duplicate_params: List[Dict[str, str]], api_token: str | None = None
+    duplicate_params: list[dict[str, str]], api_token: str | None = None
 ):
     """Duplicate layers from one map to another
 
@@ -486,3 +446,38 @@ def duplicate_layers(
         api_token=api_token,
     )
     return json.load(response)
+
+
+def _upload_file(presigned_upload, file_name):
+    url = presigned_upload["url"]
+    presigned_attributes = presigned_upload["presigned_attributes"]
+
+    with open(file_name, "rb") as file_obj:
+        request = _multipart_request(url, presigned_attributes, file_obj)
+        urllib.request.urlopen(request)
+    return presigned_upload
+
+
+def _multipart_request(
+    url: str, presigned_attributes: dict[str, str], file_obj: typing.IO[bytes]
+) -> urllib.request.Request:
+    """Make a multipart/form-data request with the given file"""
+    boundary = "-" * 20 + str(uuid.uuid4())
+    headers = {"Content-Type": f'multipart/form-data; boundary="{boundary}"'}
+    fname = os.path.basename(file_obj.name)
+
+    data = io.BytesIO()
+    text = io.TextIOWrapper(data, encoding="latin-1")
+    for key, value in presigned_attributes.items():
+        text.write(f"--{boundary}\r\n")
+        text.write(f'Content-Disposition: form-data; name="{key}"\r\n\r\n')
+        text.write(f"{value}\r\n")
+    text.write(f"--{boundary}\r\n")
+    text.write(f'Content-Disposition: form-data; name="file"; filename="{fname}"\r\n')
+    text.write("Content-Type: application/octet-stream\r\n\r\n")
+    text.flush()
+    data.write(file_obj.read())
+    data.write(f"\r\n--{boundary}".encode("latin-1"))
+    body = data.getvalue()
+
+    return urllib.request.Request(url, data=body, headers=headers, method="POST")

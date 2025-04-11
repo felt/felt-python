@@ -14,7 +14,7 @@ from felt_python import (
     create_map,
     list_elements,
     list_element_groups,
-    show_element_group,
+    get_element_group,
     upsert_elements,
     create_element_groups,
 )
@@ -148,7 +148,7 @@ class FeltElementsTest(unittest.TestCase):
         # Step 8: List elements in a specific group
         print(f"Listing elements in group: {cities_group_id}...")
 
-        group_elements = show_element_group(map_id, cities_group_id)
+        group_elements = get_element_group(map_id, cities_group_id)
 
         self.assertIsNotNone(group_elements)
         self.assertEqual(len(group_elements["features"]), 2)
@@ -186,7 +186,7 @@ class FeltElementsTest(unittest.TestCase):
         self.assertEqual(len(parks_response["features"]), 2)
 
         # Verify elements were added to the parks group
-        parks_group_elements = show_element_group(map_id, parks_group_id)
+        parks_group_elements = get_element_group(map_id, parks_group_id)
 
         self.assertEqual(len(parks_group_elements["features"]), 2)
         print(

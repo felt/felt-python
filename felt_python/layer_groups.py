@@ -1,7 +1,6 @@
 """Layer groups"""
 
 import json
-from typing import Dict, Any, List, Union, Optional
 
 from urllib.parse import urljoin
 
@@ -58,7 +57,7 @@ def get_layer_group(
 
 def update_layer_groups(
     map_id: str,
-    layer_group_params_list: List[Dict[str, Any]],
+    layer_group_params_list: list[dict[str, str | int]],
     api_token: str | None = None,
 ):
     """Update multiple layer groups at once
