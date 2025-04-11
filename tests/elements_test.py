@@ -16,7 +16,7 @@ from felt_python import (
     list_element_groups,
     get_element_group,
     upsert_elements,
-    create_element_groups,
+    upsert_element_groups,
 )
 
 
@@ -118,7 +118,7 @@ class FeltElementsTest(unittest.TestCase):
             {"name": "Parks", "symbol": "tree", "color": "#00AA55"},
         ]
 
-        created_groups = create_element_groups(map_id, element_groups)
+        created_groups = upsert_element_groups(map_id, element_groups)
 
         self.assertIsNotNone(created_groups)
         self.assertEqual(len(created_groups), 2)

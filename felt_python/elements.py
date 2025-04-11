@@ -126,16 +126,16 @@ def delete_element(map_id: str, element_id: str, api_token: str | None = None):
     )
 
 
-@deprecated(reason="Please use `create_element_groups` instead")
+@deprecated(reason="Please use `upsert_element_groups` instead")
 def post_element_group(
     map_id: str,
     json_element: dict | str,
     api_token: str | None = None,
 ):
-    create_element_groups(map_id, json_element, api_token)
+    upsert_element_groups(map_id, json_element, api_token)
 
 
-def create_element_groups(
+def upsert_element_groups(
     map_id: str,
     element_groups: list[dict[str, str]],
     api_token: str | None = None,

@@ -20,7 +20,7 @@ from felt_python import (
     upsert_elements,
     delete_element,
     list_element_groups,
-    create_element_groups,
+    upsert_element_groups,
     # Layers
     get_layer,
     upload_file,
@@ -169,7 +169,7 @@ class FeltDeleteTest(unittest.TestCase):
             }
         ]
 
-        element_group_resp = create_element_groups(map_id, element_groups)
+        element_group_resp = upsert_element_groups(map_id, element_groups)
 
         self.assertIsNotNone(element_group_resp)
         element_group_id = element_group_resp[0]["id"]

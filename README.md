@@ -107,9 +107,9 @@ refresh_file_layer(
 
 ### Styling a layer
 ```python
-from felt_python import get_layer_details, update_layer_style
+from felt_python import get_layer, update_layer_style
 
-current_style = get_layer_details(
+current_style = get_layer(
     map_id=map_id,
     layer_id=layer_id,
 )["style"]

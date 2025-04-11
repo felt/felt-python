@@ -12,6 +12,7 @@ import typing
 from urllib.parse import urljoin
 
 from .api import make_request, BASE_URL
+from .util import deprecated
 
 
 LAYERS = urljoin(BASE_URL, "maps/{map_id}/layers")
@@ -205,6 +206,11 @@ def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
         api_token=api_token,
     )
     return json.load(response)
+
+
+@deprecated(reason="Please use `get_layer` instead")
+def get_layer_details(map_id: str, api_token: str | None = None):
+    get_layer(map_id, api_token)
 
 
 def get_layer(

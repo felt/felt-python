@@ -1,4 +1,4 @@
-# For now, hoist all functions to the top level
+# Hoist all functions to the top level
 from .maps import (
     create_map,
     delete_map,
@@ -29,6 +29,8 @@ from .layers import (
     create_custom_export,
     get_custom_export_status,
     duplicate_layers,
+    # Deprecated
+    get_layer_details,
 )
 from .elements import (
     list_elements,
@@ -36,7 +38,7 @@ from .elements import (
     upsert_elements,
     delete_element,
     get_element_group,
-    create_element_groups,
+    upsert_element_groups,
     # Deprecated:
     post_elements,
     post_element_group,
@@ -117,7 +119,7 @@ __all__ = [
     "list_elements_in_group",
     "upsert_elements",
     "delete_element",
-    "create_element_groups",
+    "upsert_element_groups",
     # Projects
     "list_projects",
     "create_project",
@@ -145,4 +147,5 @@ __all__ = [
     "post_elements",
     "post_element_group",
     "get_map_details",
+    "get_layer_details",
 ]
