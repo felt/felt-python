@@ -23,10 +23,6 @@ refreshing files and (Geo)DataFrames or updating layer styles and element proper
 pip install felt-python
 ```
 
-## Notebooks
-
-See the [notebooks](/notebooks) directory for Juypter notebooks with complete examples of using the API.
-
 ## Basic Usage
 
 ### Authentication
@@ -122,6 +118,9 @@ update_layer_style(
     style=new_style,
 )
 ```
+
+## Notebooks
+Check out our [Juypter notebooks](https://github.com/felt/felt-python/tree/main/notebooks) for a complete set of examples.
 
 ## Support
 We are always eager to hear from you. Reach out to support@felt.com for all your Felt support needs.
