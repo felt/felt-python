@@ -122,5 +122,11 @@ update_layer_style(
 ## Notebooks
 Check out our [Juypter notebooks](https://github.com/felt/felt-python/tree/main/notebooks) for a complete set of examples.
 
+## Documentation
+
+Visit the [API Reference](https://developers.felt.com/rest-api/api-reference) section
+of our [Developer docs](https://developers.felt.com/) for complete documentation of all
+endpoints in the REST API.
+
 ## Support
 We are always eager to hear from you. Reach out to support@felt.com for all your Felt support needs.

@@ -116,7 +116,6 @@ __all__ = [
     # Elements
     "list_elements",
     "list_element_groups",
-    "list_elements_in_group",
     "upsert_elements",
     "delete_element",
     "upsert_element_groups",
@@ -148,4 +147,5 @@ __all__ = [
     "post_element_group",
     "get_map_details",
     "get_layer_details",
+    "list_elements_in_group",
 ]
