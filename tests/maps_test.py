@@ -20,6 +20,7 @@ from felt_python import (
     resolve_comment,
     delete_comment,
     create_embed_token,
+    duplicate_map,
 )
 
 
@@ -134,6 +135,28 @@ class FeltAPITest(unittest.TestCase):
         self.assertIn("token", token_data)
         self.assertIn("expires_at", token_data)
         print(f"Created embed token that expires at {token_data['expires_at']}")
+
+        # Step 8: Duplicate the map
+        print("Duplicating map...")
+
+        duplicated_map_name = f"Duplicated Map ({self.timestamp})"
+        duplicated_map = duplicate_map(
+            map_id=map_id,
+            title=duplicated_map_name
+        )
+
+        self.assertIsNotNone(duplicated_map)
+        self.assertIn("id", duplicated_map)
+        self.assertEqual(duplicated_map["title"], duplicated_map_name)
+        self.assertNotEqual(duplicated_map["id"], map_id)  # Should be different ID
+
+        duplicated_map_id = duplicated_map["id"]
+        print(f"Duplicated map created with ID: {duplicated_map_id}")
+
+        # Clean up duplicated map
+        print("Cleaning up duplicated map...")
+        delete_map(duplicated_map_id)
+
         print("\nTest completed successfully!")
 
 

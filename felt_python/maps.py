@@ -14,6 +14,7 @@ MAP_UPDATE = urljoin(BASE_URL, "maps/{map_id}/update")
 MAP_MOVE = urljoin(BASE_URL, "maps/{map_id}/move")
 MAP_EMBED_TOKEN = urljoin(BASE_URL, "maps/{map_id}/embed_token")
 MAP_ADD_SOURCE_LAYER = urljoin(BASE_URL, "maps/{map_id}/add_source_layer")
+MAP_DUPLICATE = urljoin(BASE_URL, "maps/{map_id}/duplicate")
 
 
 def create_map(
@@ -227,6 +228,48 @@ def add_source_layer(
         url=MAP_ADD_SOURCE_LAYER.format(map_id=map_id),
         method="POST",
         json=source_layer_params,
+        api_token=api_token,
+    )
+    return json.load(response)
+
+
+def duplicate_map(
+    map_id: str,
+    title: str = None,
+    project_id: str = None,
+    folder_id: str = None,
+    api_token: str = None,
+):
+    """Duplicate a map
+
+    Args:
+        map_id: The ID of the map to duplicate
+        title: Optional title for the duplicated map
+        project_id: The ID of the project to place the duplicated map in
+                   (mutually exclusive with folder_id)
+        folder_id: The ID of the folder to place the duplicated map in
+                  (mutually exclusive with project_id)
+        api_token: Optional API token
+
+    Returns:
+        The duplicated map
+    """
+    if project_id is not None and folder_id is not None:
+        raise ValueError("Cannot specify both project_id and folder_id")
+
+    json_args = {}
+    if title is not None:
+        json_args["title"] = title
+
+    if project_id is not None:
+        json_args["destination"] = {"project_id": project_id}
+    elif folder_id is not None:
+        json_args["destination"] = {"folder_id": folder_id}
+
+    response = make_request(
+        url=MAP_DUPLICATE.format(map_id=map_id),
+        method="POST",
+        json=json_args,
         api_token=api_token,
     )
     return json.load(response)
