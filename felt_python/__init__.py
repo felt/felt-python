@@ -85,6 +85,7 @@ __all__ = [
     # Maps
     "create_map",
     "delete_map",
+    "get_map",
     "update_map",
     "move_map",
     "create_embed_token",
@@ -115,6 +116,7 @@ __all__ = [
     "publish_layer_group",
     # Elements
     "list_elements",
+    "get_element_group",
     "list_element_groups",
     "upsert_elements",
     "delete_element",

@@ -103,7 +103,7 @@ def delete_layer_group(
 def publish_layer_group(
     map_id: str,
     layer_group_id: str,
-    name: str = None,
+    name: str | None = None,
     api_token: str | None = None,
 ):
     """Publish a layer group to the Felt library

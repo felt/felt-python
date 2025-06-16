@@ -73,14 +73,14 @@ def get_element_group(map_id: str, element_group_id: str, api_token: str | None 
 def list_elements_in_group(
     map_id: str, element_group_id: str, api_token: str | None = None
 ):
-    get_element_group(map_id, element_group_id, api_token)
+    return get_element_group(map_id, element_group_id, api_token)
 
 
 @deprecated(reason="Please use `upsert_elements` instead")
 def post_elements(
     map_id: str, geojson_feature_collection: dict | str, api_token: str | None = None
 ):
-    upsert_elements(map_id, geojson_feature_collection, api_token)
+    return upsert_elements(map_id, geojson_feature_collection, api_token)
 
 
 def upsert_elements(
@@ -132,12 +132,12 @@ def post_element_group(
     json_element: dict | str,
     api_token: str | None = None,
 ):
-    upsert_element_groups(map_id, json_element, api_token)
+    return upsert_element_groups(map_id, json_element, api_token)
 
 
 def upsert_element_groups(
     map_id: str,
-    element_groups: list[dict[str, str]],
+    element_groups: list[dict],
     api_token: str | None = None,
 ):
     """Post multiple element groups

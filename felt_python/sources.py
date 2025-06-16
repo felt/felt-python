@@ -29,7 +29,7 @@ def list_sources(workspace_id: str | None = None, api_token: str | None = None):
 def create_source(
     name: str,
     connection: dict[str, str],
-    permissions: dict[str, str] = None,
+    permissions: dict[str, str] | None = None,
     api_token: str | None = None,
 ):
     """Create a new source

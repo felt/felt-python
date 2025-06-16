@@ -6,8 +6,8 @@ import os
 import tempfile
 import typing
 import urllib.request
+import urllib.parse
 import uuid
-import typing
 
 from urllib.parse import urljoin
 
@@ -43,11 +43,11 @@ def upload_file(
     map_id: str,
     file_name: str,
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
-    lat: float = None,
-    lng: float = None,
-    zoom: float = None,
+    metadata: dict[str, str | None] | None = None,
+    hints: list[dict[str, str]] | None = None,
+    lat: float | None = None,
+    lng: float | None = None,
+    zoom: float | None = None,
     api_token: str | None = None,
 ):
     """Upload a file to a Felt map
@@ -93,8 +93,8 @@ def upload_dataframe(
     map_id: str,
     dataframe: "pd.DataFrame",
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
+    metadata: dict[str, str | None] | None = None,
+    hints: list[dict[str, str]] | None = None,
     api_token: str | None = None,
 ):
     """Upload a Pandas DataFrame to a Felt map"""
@@ -115,8 +115,8 @@ def upload_geodataframe(
     map_id: str,
     geodataframe: "gpd.GeoDataFrame",
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
+    metadata: dict[str, str | None] | None = None,
+    hints: list[dict[str, str]] | None = None,
     api_token: str | None = None,
 ):
     """Upload a GeoPandas GeoDataFrame to a Felt map"""
@@ -159,8 +159,8 @@ def upload_url(
     map_id: str,
     layer_url: str,
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
+    metadata: dict[str, str | None] | None = None,
+    hints: list[dict[str, str]] | None = None,
     api_token: str | None = None,
 ):
     """Upload a URL to a Felt map
@@ -209,8 +209,8 @@ def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
 
 
 @deprecated(reason="Please use `get_layer` instead")
-def get_layer_details(map_id: str, api_token: str | None = None):
-    get_layer(map_id, api_token)
+def get_layer_details(map_id: str, layer_id: str, api_token: str | None = None):
+    return get_layer(map_id, layer_id, api_token)
 
 
 def get_layer(
@@ -331,7 +331,7 @@ def delete_layer(
 def publish_layer(
     map_id: str,
     layer_id: str,
-    name: str = None,
+    name: str | None = None,
     api_token: str | None = None,
 ):
     """Publish a layer to the Felt library
@@ -362,7 +362,7 @@ def create_custom_export(
     map_id: str,
     layer_id: str,
     output_format: str,
-    filters: list = None,
+    filters: list | None = None,
     email_on_completion: bool = True,
     api_token: str | None = None,
 ):

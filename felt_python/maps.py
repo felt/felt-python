@@ -17,16 +17,16 @@ MAP_ADD_SOURCE_LAYER = urljoin(BASE_URL, "maps/{map_id}/add_source_layer")
 
 
 def create_map(
-    title: str = None,
-    description: str = None,
-    public_access: str = None,
-    basemap: str = None,
-    lat: float = None,
-    lon: float = None,
-    zoom: float = None,
-    layer_urls: list[str] = None,
-    workspace_id: str = None,
-    api_token: str = None,
+    title: str | None = None,
+    description: str | None = None,
+    public_access: str | None = None,
+    basemap: str | None = None,
+    lat: float | None = None,
+    lon: float | None = None,
+    zoom: float | None = None,
+    layer_urls: list[str] | None = None,
+    workspace_id: str | None = None,
+    api_token: str | None = None,
 ):
     """Create a new Felt map
 
@@ -111,10 +111,10 @@ def get_map_details(map_id: str, api_token: str | None = None):
 
 def update_map(
     map_id: str,
-    title: str = None,
-    description: str = None,
-    public_access: str = None,
-    api_token: str = None,
+    title: str | None = None,
+    description: str | None = None,
+    public_access: str | None = None,
+    api_token: str | None = None,
 ):
     """Update a map's details
 
@@ -148,7 +148,7 @@ def update_map(
 
 
 def move_map(
-    map_id: str, project_id: str = None, folder_id: str = None, api_token: str = None
+    map_id: str, project_id: str | None = None, folder_id: str | None = None, api_token: str | None = None
 ):
     """Move a map to a different project or folder
 
@@ -181,7 +181,7 @@ def move_map(
     return json.load(response)
 
 
-def create_embed_token(map_id: str, user_email: str = None, api_token: str = None):
+def create_embed_token(map_id: str, user_email: str | None = None, api_token: str | None = None):
     """Create an embed token for a map
 
     Args:
@@ -207,7 +207,7 @@ def create_embed_token(map_id: str, user_email: str = None, api_token: str = Non
 
 
 def add_source_layer(
-    map_id: str, source_layer_params: dict[str, str], api_token: str = None
+    map_id: str, source_layer_params: dict[str, str], api_token: str | None = None
 ):
     """Add a layer from a source to a map
 
