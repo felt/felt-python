@@ -201,14 +201,14 @@ class FeltLayerGroupsTest(unittest.TestCase):
             name="Vector Data (Individual Update)",
             caption="Updated via individual update function",
             ordering_key=10,
-            visibility_interaction="checkbox"
+            visibility_interaction="slider"
         )
 
         self.assertIsNotNone(individual_update_result)
         self.assertEqual(individual_update_result["name"], "Vector Data (Individual Update)")
         self.assertEqual(individual_update_result["caption"], "Updated via individual update function")
         self.assertEqual(individual_update_result["ordering_key"], 10)
-        self.assertEqual(individual_update_result["visibility_interaction"], "checkbox")
+        self.assertEqual(individual_update_result["visibility_interaction"], "slider")
 
         print("Individual layer group update completed successfully")
 

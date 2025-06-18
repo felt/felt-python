@@ -118,7 +118,7 @@ def update_layer_group(
         caption: Optional new caption for the layer group (deprecated)
         ordering_key: Optional new ordering key for positioning
         visibility_interaction: Optional visibility interaction setting
-                              ("checkbox", "slider")
+                              ("default", "slider")
         api_token: Optional API token
 
     Returns:
