@@ -115,7 +115,7 @@ def update_layer_group(
         map_id: The ID of the map containing the layer group
         layer_group_id: The ID of the layer group to update
         name: Optional new name for the layer group
-        caption: Optional new caption for the layer group (deprecated)
+        caption: Optional new caption for the layer group
         ordering_key: Optional new ordering key for positioning
         visibility_interaction: Optional visibility interaction setting
                               ("default", "slider")
