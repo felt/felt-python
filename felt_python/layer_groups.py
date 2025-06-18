@@ -100,6 +100,50 @@ def delete_layer_group(
     )
 
 
+def update_layer_group(
+    map_id: str,
+    layer_group_id: str,
+    name: str = None,
+    caption: str = None,
+    ordering_key: int = None,
+    visibility_interaction: str = None,
+    api_token: str | None = None,
+):
+    """Update a single layer group
+
+    Args:
+        map_id: The ID of the map containing the layer group
+        layer_group_id: The ID of the layer group to update
+        name: Optional new name for the layer group
+        caption: Optional new caption for the layer group
+        ordering_key: Optional new ordering key for positioning
+        visibility_interaction: Optional visibility interaction setting
+                              ("default", "slider")
+        api_token: Optional API token
+
+    Returns:
+        The updated layer group
+    """
+    json_payload = {}
+
+    if name is not None:
+        json_payload["name"] = name
+    if caption is not None:
+        json_payload["caption"] = caption
+    if ordering_key is not None:
+        json_payload["ordering_key"] = ordering_key
+    if visibility_interaction is not None:
+        json_payload["visibility_interaction"] = visibility_interaction
+
+    response = make_request(
+        url=GROUP.format(map_id=map_id, layer_group_id=layer_group_id),
+        method="POST",
+        json=json_payload,
+        api_token=api_token,
+    )
+    return json.load(response)
+
+
 def publish_layer_group(
     map_id: str,
     layer_group_id: str,

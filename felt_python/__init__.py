@@ -7,6 +7,7 @@ from .maps import (
     move_map,
     create_embed_token,
     add_source_layer,
+    duplicate_map,
     # Deprecated
     get_map_details,
 )
@@ -47,6 +48,7 @@ from .elements import (
 from .layer_groups import (
     list_layer_groups,
     get_layer_group,
+    update_layer_group,
     update_layer_groups,
     delete_layer_group,
     publish_layer_group,
@@ -89,6 +91,7 @@ __all__ = [
     "move_map",
     "create_embed_token",
     "add_source_layer",
+    "duplicate_map",
     # Layers
     "list_layers",
     "upload_file",
@@ -110,6 +113,7 @@ __all__ = [
     # Layer groups
     "list_layer_groups",
     "get_layer_group",
+    "update_layer_group",
     "update_layer_groups",
     "delete_layer_group",
     "publish_layer_group",

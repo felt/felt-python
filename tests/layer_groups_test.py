@@ -15,6 +15,7 @@ from felt_python import (
     create_map,
     list_layer_groups,
     get_layer_group,
+    update_layer_group,
     update_layer_groups,
     publish_layer_group,
     update_layers,
@@ -191,7 +192,27 @@ class FeltLayerGroupsTest(unittest.TestCase):
 
         print("Layer groups updated successfully")
 
-        # Step 7: Update layers to assign them to groups
+        # Step 7: Test individual layer group update
+        print("Testing individual layer group update...")
+
+        individual_update_result = update_layer_group(
+            map_id=map_id,
+            layer_group_id=group1_id,
+            name="Vector Data (Individual Update)",
+            caption="Updated via individual update function",
+            ordering_key=10,
+            visibility_interaction="slider"
+        )
+
+        self.assertIsNotNone(individual_update_result)
+        self.assertEqual(individual_update_result["name"], "Vector Data (Individual Update)")
+        self.assertEqual(individual_update_result["caption"], "Updated via individual update function")
+        self.assertEqual(individual_update_result["ordering_key"], 10)
+        self.assertEqual(individual_update_result["visibility_interaction"], "slider")
+
+        print("Individual layer group update completed successfully")
+
+        # Step 8: Update layers to assign them to groups
         print("Updating layers to assign them to groups...")
         layer_updates = [
             {
@@ -221,7 +242,7 @@ class FeltLayerGroupsTest(unittest.TestCase):
             any(layer["id"] == layer2_id for layer in group2_details["layers"])
         )
 
-        # Step 8: Publish a layer group to the library
+        # Step 9: Publish a layer group to the library
         print(f"Publishing layer group: {group1_id} to the library...")
         try:
             published_group = publish_layer_group(
