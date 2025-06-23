@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Lint and format using Ruff
-      uses: astral-sh/ruff-action@v3
-      run: ruff check --fix
-      run: ruff format --diff
+    - uses: astral-sh/ruff-action@v3
+    - run: ruff check --fix
+    - run: ruff format
