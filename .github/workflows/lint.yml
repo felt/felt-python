@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: astral-sh/ruff-action@v3
+    - name: Lint and format using Ruff
+      uses: astral-sh/ruff-action@v3
       run: ruff check --fix
       run: ruff format --diff
-      with:
-        python-version: '3.12'
