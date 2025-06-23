@@ -24,3 +24,6 @@ classifiers = [
 Homepage = "https://github.com/felt/felt-python"
 Issues = "https://github.com/felt/felt-python/issues"
 Documentation = "https://developers.felt.com"
+
+[tool.ruff]
+extend-exclude = ["*.ipynb"]
