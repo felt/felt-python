@@ -90,7 +90,7 @@ class FeltElementsTest(unittest.TestCase):
         barcelona_element = next(
             el for el in elements["features"] if el["properties"]["name"] == "Barcelona"
         )
-        barcelona_element_id = barcelona_element["properties"]["felt:id"]
+        barcelona_element["properties"]["felt:id"]
 
         barcelona_element["properties"]["felt:color"] = "#0000FF"
         barcelona_feature_collection = {

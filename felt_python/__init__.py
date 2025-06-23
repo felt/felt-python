@@ -92,6 +92,7 @@ __all__ = [
     "create_embed_token",
     "add_source_layer",
     "duplicate_map",
+    "get_map",
     # Layers
     "list_layers",
     "upload_file",
@@ -120,6 +121,7 @@ __all__ = [
     # Elements
     "list_elements",
     "list_element_groups",
+    "get_element_group",
     "upsert_elements",
     "delete_element",
     "upsert_element_groups",

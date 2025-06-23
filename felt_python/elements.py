@@ -102,6 +102,9 @@ def upsert_elements(
     """
     if isinstance(geojson_feature_collection, str):
         geojson_feature_collection = json.loads(geojson_feature_collection)
+        assert isinstance(
+            geojson_feature_collection, dict
+        ), "geojson_feature_collection must be a valid GeoJSON"
     response = make_request(
         url=ELEMENTS.format(map_id=map_id),
         method="POST",
@@ -132,12 +135,17 @@ def post_element_group(
     json_element: dict | str,
     api_token: str | None = None,
 ):
-    upsert_element_groups(map_id, json_element, api_token)
+    if isinstance(json_element, str):
+        json_element = json.loads(json_element)
+        assert isinstance(
+            json_element, dict
+        ), "json_element must be a valid JSON object"
+    upsert_element_groups(map_id, [json_element], api_token)
 
 
 def upsert_element_groups(
     map_id: str,
-    element_groups: list[dict[str, str]],
+    element_groups: list[dict],
     api_token: str | None = None,
 ):
     """Post multiple element groups

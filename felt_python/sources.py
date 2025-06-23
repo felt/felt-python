@@ -29,7 +29,7 @@ def list_sources(workspace_id: str | None = None, api_token: str | None = None):
 def create_source(
     name: str,
     connection: dict[str, str],
-    permissions: dict[str, str] = None,
+    permissions: dict[str, str] | None = None,
     api_token: str | None = None,
 ):
     """Create a new source
@@ -85,7 +85,7 @@ def update_source(
     Returns:
         The updated source reference
     """
-    json_payload = {}
+    json_payload: dict = {}
     if name is not None:
         json_payload["name"] = name
     if connection is not None:

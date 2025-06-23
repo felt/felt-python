@@ -19,7 +19,6 @@ from felt_python import (
     list_elements,
     upsert_elements,
     delete_element,
-    list_element_groups,
     upsert_element_groups,
     # Layers
     get_layer,
@@ -230,9 +229,9 @@ class FeltDeleteTest(unittest.TestCase):
 
         # Verify layer deletion by attempting to get it
         try:
-            deleted_layer = get_layer(map_id, layer_id)
+            get_layer(map_id, layer_id)
             self.fail("Layer should have been deleted but was still accessible")
-        except Exception as e:
+        except Exception:
             print("Layer deleted successfully")
 
         # Delete the map

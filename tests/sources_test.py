@@ -123,14 +123,12 @@ class FeltSourcesTest(unittest.TestCase):
         print("Waiting for source synchronization...")
         max_wait_time = 60  # seconds
         start_time = time.time()
-        sync_completed = False
 
         while time.time() - start_time < max_wait_time:
             current_source = get_source(source_id)
             sync_status = current_source.get("sync_status")
 
             if sync_status == "completed":
-                sync_completed = True
                 print(
                     f"Source sync completed in {time.time() - start_time:.1f} seconds"
                 )

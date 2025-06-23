@@ -103,10 +103,10 @@ def delete_layer_group(
 def update_layer_group(
     map_id: str,
     layer_group_id: str,
-    name: str = None,
-    caption: str = None,
-    ordering_key: int = None,
-    visibility_interaction: str = None,
+    name: str | None = None,
+    caption: str | None = None,
+    ordering_key: int | None = None,
+    visibility_interaction: str | None = None,
     api_token: str | None = None,
 ):
     """Update a single layer group
@@ -124,7 +124,7 @@ def update_layer_group(
     Returns:
         The updated layer group
     """
-    json_payload = {}
+    json_payload: dict = {}
 
     if name is not None:
         json_payload["name"] = name
@@ -147,7 +147,7 @@ def update_layer_group(
 def publish_layer_group(
     map_id: str,
     layer_group_id: str,
-    name: str = None,
+    name: str | None = None,
     api_token: str | None = None,
 ):
     """Publish a layer group to the Felt library

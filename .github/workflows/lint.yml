@@ -1,0 +1,18 @@
+name: Felt Python Linting And Formatting
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: astral-sh/ruff-action@v3
+      run: ruff check --fix
+      run: ruff format --diff
+      with:
+        python-version: '3.12'
