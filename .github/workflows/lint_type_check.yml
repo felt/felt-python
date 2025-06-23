@@ -1,4 +1,4 @@
-name: Felt Python Type Checking
+name: Linting And Type Checking
 
 
 on:
@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  type_check:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +24,12 @@ jobs:
 
     - name: Run mypy
       run: mypy .
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Lint and format using Ruff
+      uses: astral-sh/ruff-action@v3
+      run: ruff check --fix
+      run: ruff format --diff
