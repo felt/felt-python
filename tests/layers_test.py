@@ -231,7 +231,7 @@ class FeltLayersTest(unittest.TestCase):
         # Poll for export status (try a few times)
         max_polls = 3
         for i in range(max_polls):
-            print(f"Checking export status (attempt {i+1}/{max_polls})...")
+            print(f"Checking export status (attempt {i + 1}/{max_polls})...")
 
             export_status = get_custom_export_status(
                 map_id=map_id, layer_id=layer_id, export_id=export_id
