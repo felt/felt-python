@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 jobs:
-  type_check:
+  lint_type_check:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,15 +20,13 @@ jobs:
         python-version: '3.12'
 
     - name: Install Dependencies
-      run: pip install mypy certifi
+      run: pip install mypy certifi ruff
 
     - name: Run mypy
       run: mypy .
-
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: astral-sh/ruff-action@v3
-    - run: ruff check --fix
-    - run: ruff format
+    
+    - name: Lint
+      run: ruff check --fix
+    
+    - name: Format
+      run: ruff format --diff
