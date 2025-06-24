@@ -45,7 +45,8 @@ class FeltProjectsTest(unittest.TestCase):
         print(f"Creating project: {project_name}...")
 
         project = create_project(
-            name=project_name, visibility="private"  # Options: "workspace" or "private"
+            name=project_name,
+            visibility="private",  # Options: "workspace" or "private"
         )
 
         self.assertIsNotNone(project)

@@ -7,7 +7,6 @@ import tempfile
 import typing
 import urllib.request
 import uuid
-import typing
 
 from urllib.parse import urljoin
 
@@ -43,11 +42,11 @@ def upload_file(
     map_id: str,
     file_name: str,
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
-    lat: float = None,
-    lng: float = None,
-    zoom: float = None,
+    metadata: dict[str, str] | None = None,
+    hints: list[dict[str, str]] | None = None,
+    lat: float | None = None,
+    lng: float | None = None,
+    zoom: float | None = None,
     api_token: str | None = None,
 ):
     """Upload a file to a Felt map
@@ -66,7 +65,7 @@ def upload_file(
     Returns:
         The upload response including layer ID and presigned upload details
     """
-    json_payload = {"name": layer_name}
+    json_payload: dict = {"name": layer_name}
 
     if metadata is not None:
         json_payload["metadata"] = metadata
@@ -91,10 +90,10 @@ def upload_file(
 
 def upload_dataframe(
     map_id: str,
-    dataframe: "pd.DataFrame",
+    dataframe: "pandas.DataFrame",  # type: ignore[name-defined] # noqa: F821
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
+    metadata: dict[str, str] | None = None,
+    hints: list[dict[str, str]] | None = None,
     api_token: str | None = None,
 ):
     """Upload a Pandas DataFrame to a Felt map"""
@@ -113,10 +112,10 @@ def upload_dataframe(
 
 def upload_geodataframe(
     map_id: str,
-    geodataframe: "gpd.GeoDataFrame",
+    geodataframe: "geopandas.GeoDataFrame",  # type: ignore[name-defined] # noqa: F821
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
+    metadata: dict[str, str] | None = None,
+    hints: list[dict[str, str]] | None = None,
     api_token: str | None = None,
 ):
     """Upload a GeoPandas GeoDataFrame to a Felt map"""
@@ -159,8 +158,8 @@ def upload_url(
     map_id: str,
     layer_url: str,
     layer_name: str,
-    metadata: dict[str, str] = None,
-    hints: list[dict[str, str]] = None,
+    metadata: dict[str, str] | None = None,
+    hints: list[dict[str, str]] | None = None,
     api_token: str | None = None,
 ):
     """Upload a URL to a Felt map
@@ -176,7 +175,7 @@ def upload_url(
     Returns:
         The upload response
     """
-    json_payload = {
+    json_payload: dict = {
         "import_url": layer_url,
         "name": layer_name,
     }
@@ -209,8 +208,8 @@ def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
 
 
 @deprecated(reason="Please use `get_layer` instead")
-def get_layer_details(map_id: str, api_token: str | None = None):
-    get_layer(map_id, api_token)
+def get_layer_details(map_id: str, layer_id: str, api_token: str | None = None):
+    get_layer(map_id, layer_id, api_token)
 
 
 def get_layer(
@@ -331,7 +330,7 @@ def delete_layer(
 def publish_layer(
     map_id: str,
     layer_id: str,
-    name: str = None,
+    name: str | None = None,
     api_token: str | None = None,
 ):
     """Publish a layer to the Felt library
@@ -345,7 +344,7 @@ def publish_layer(
     Returns:
         The published layer
     """
-    json_payload = {}
+    json_payload: dict = {}
     if name is not None:
         json_payload["name"] = name
 
@@ -362,7 +361,7 @@ def create_custom_export(
     map_id: str,
     layer_id: str,
     output_format: str,
-    filters: list = None,
+    filters: list | None = None,
     email_on_completion: bool = True,
     api_token: str | None = None,
 ):
@@ -381,7 +380,7 @@ def create_custom_export(
     Returns:
         Export request details including ID and polling endpoint
     """
-    json_payload = {
+    json_payload: dict = {
         "output_format": output_format,
         "email_on_completion": email_on_completion,
     }

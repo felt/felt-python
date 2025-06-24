@@ -23,7 +23,7 @@ BASE_URL = os.getenv("FELT_BASE_URL", "https://felt.com/api/v2/")
 def make_request(
     url: str,
     method: typing.Literal["GET", "POST", "PATCH", "DELETE"],
-    json: dict | None = None,
+    json: dict | list | None = None,
     api_token: str | None = None,
 ) -> http.client.HTTPResponse:
     """Basic wrapper for requests that adds auth"""
@@ -40,10 +40,13 @@ def make_request(
     except PackageNotFoundError:
         package_version = "local"
 
-    data, headers = None, {
-        "Authorization": f"Bearer {api_token}",
-        "User-Agent": f"felt-python/{package_version}",
-    }
+    data, headers = (
+        None,
+        {
+            "Authorization": f"Bearer {api_token}",
+            "User-Agent": f"felt-python/{package_version}",
+        },
+    )
     if json is not None:
         data = json_.dumps(json).encode("utf8")
         headers["Content-Type"] = "application/json"

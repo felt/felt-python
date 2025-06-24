@@ -48,7 +48,7 @@ class FeltLibraryTest(unittest.TestCase):
 
         # Show first few layers if any
         for i, layer in enumerate(workspace_library["layers"][:3]):
-            print(f"Layer {i+1}: {layer['name']} (ID: {layer['id']})")
+            print(f"Layer {i + 1}: {layer['name']} (ID: {layer['id']})")
 
         # Step 2: List layers in the Felt data library
         print("\nListing layers in Felt data library...")
@@ -64,7 +64,7 @@ class FeltLibraryTest(unittest.TestCase):
 
         # Show first few layers
         for i, layer in enumerate(felt_library["layers"][:5]):
-            print(f"Layer {i+1}: {layer['name']} (ID: {layer['id']})")
+            print(f"Layer {i + 1}: {layer['name']} (ID: {layer['id']})")
 
         # Step 3: Create a map with a layer and publish it to the library
         map_name = f"Library Test Map ({self.timestamp})"

@@ -1,0 +1,32 @@
+name: Linting And Type Checking
+
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint_type_check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: pip install mypy certifi ruff
+
+    - name: Run mypy
+      run: mypy .
+    
+    - name: Lint
+      run: ruff check
+    
+    - name: Format
+      run: ruff format --diff

@@ -6,7 +6,6 @@ Uses the felt_python library to test the map creation, updates, and other map-re
 import os
 import sys
 import unittest
-import time
 import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -128,7 +127,7 @@ class FeltAPITest(unittest.TestCase):
         print("Creating embed token...")
 
         token_data = create_embed_token(
-            map_id=map_id, user_email=f"test.user@example.com"
+            map_id=map_id, user_email="test.user@example.com"
         )
 
         self.assertIsNotNone(token_data)
@@ -140,10 +139,7 @@ class FeltAPITest(unittest.TestCase):
         print("Duplicating map...")
 
         duplicated_map_name = f"Duplicated Map ({self.timestamp})"
-        duplicated_map = duplicate_map(
-            map_id=map_id,
-            title=duplicated_map_name
-        )
+        duplicated_map = duplicate_map(map_id=map_id, title=duplicated_map_name)
 
         self.assertIsNotNone(duplicated_map)
         self.assertIn("id", duplicated_map)
