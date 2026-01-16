@@ -116,6 +116,8 @@ def update_map(
     description: str | None = None,
     public_access: str | None = None,
     basemap: str | None = None,
+    table_settings: dict | None = None,
+    viewer_permissions: dict | None = None,
     api_token: str | None = None,
 ):
     """Update a map's details
@@ -128,15 +130,24 @@ def update_map(
             Options are "private", "view_only", "view_and_comment",
             or "view_comment_and_edit"
         basemap: The basemap to use for the map. Defaults to "default".
-               Valid values are "default", "light", "dark", "satellite",
-               a valid raster tile URL with {x}, {y}, and {z} parameters,
-               or a hex color string like #ff0000.
+            Valid values are "default", "light", "dark", "satellite",
+            a valid raster tile URL with {x}, {y}, and {z} parameters,
+            or a hex color string like #ff0000.
+        table_settings: Optional data table settings
+            Dict with keys:
+            - "default_table_layer_id": str | None - The layer ID to open by default in table view
+            - "viewers_can_open_table": bool - Whether viewers can open the data table
+        viewer_permissions: Optional viewer permission settings
+            Dict with keys:
+            - "can_duplicate_map": bool - Whether viewers can duplicate the map and data
+            - "can_export_data": bool - Whether viewers can export map data
+            - "can_see_map_presence": bool - Whether viewers can see who else is viewing the map
         api_token: Optional API token
 
     Returns:
         The updated map
     """
-    json_args = {}
+    json_args: dict = {}
     if title is not None:
         json_args["title"] = title
     if description is not None:
@@ -145,6 +156,10 @@ def update_map(
         json_args["public_access"] = public_access
     if basemap is not None:
         json_args["basemap"] = basemap
+    if table_settings is not None:
+        json_args["table_settings"] = table_settings
+    if viewer_permissions is not None:
+        json_args["viewer_permissions"] = viewer_permissions
 
     response = make_request(
         url=MAP_UPDATE.format(map_id=map_id),

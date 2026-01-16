@@ -69,12 +69,23 @@ class FeltAPITest(unittest.TestCase):
         updated_name = f"Test Map Updated ({self.timestamp})"
         print(f"Updating map to: {updated_name}...")
 
+        # Test table_settings and viewer_permissions
+        table_settings = {"viewers_can_open_table": True}
+
+        viewer_permissions = {
+            "can_duplicate_map": True,
+            "can_export_data": False,
+            "can_see_map_presence": True,
+        }
+
         updated_map = update_map(
             map_id=map_id,
             title=updated_name,
             description=f"This map was updated through the API test at {self.timestamp}",
             public_access="view_only",
             basemap="dark",
+            table_settings=table_settings,
+            viewer_permissions=viewer_permissions,
         )
 
         self.assertIsNotNone(updated_map)
@@ -85,6 +96,16 @@ class FeltAPITest(unittest.TestCase):
         self.assertEqual(updated_details["title"], updated_name)
         self.assertEqual(updated_details["public_access"], "view_only")
         self.assertEqual(updated_details["basemap"], "dark")
+
+        # Verify table_settings and viewer_permissions were applied
+        if "table_settings" in updated_details:
+            self.assertTrue(updated_details["table_settings"]["viewers_can_open_table"])
+
+        if "viewer_permissions" in updated_details:
+            perms = updated_details["viewer_permissions"]
+            self.assertTrue(perms["can_duplicate_map"])
+            self.assertFalse(perms["can_export_data"])
+            self.assertTrue(perms["can_see_map_presence"])
 
         # Step 4: Export comments
         # Note: There will be no comments on a newly created map
