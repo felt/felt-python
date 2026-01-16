@@ -31,7 +31,7 @@ def create_project(name: str, visibility: str, api_token: str | None = None):
     Args:
         name: The name to be used for the Project
         visibility: Either "workspace" (viewable by all members of the workspace)
-                  or "private" (private to users who are invited)
+            or "private" (private to users who are invited)
         api_token: Optional API token
 
     Returns:
