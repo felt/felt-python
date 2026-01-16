@@ -74,6 +74,7 @@ class FeltAPITest(unittest.TestCase):
             title=updated_name,
             description=f"This map was updated through the API test at {self.timestamp}",
             public_access="view_only",
+            basemap="dark",
         )
 
         self.assertIsNotNone(updated_map)
@@ -83,6 +84,7 @@ class FeltAPITest(unittest.TestCase):
 
         self.assertEqual(updated_details["title"], updated_name)
         self.assertEqual(updated_details["public_access"], "view_only")
+        self.assertEqual(updated_details["basemap"], "dark")
 
         # Step 4: Export comments
         # Note: There will be no comments on a newly created map

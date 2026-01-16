@@ -115,6 +115,7 @@ def update_map(
     title: str | None = None,
     description: str | None = None,
     public_access: str | None = None,
+    basemap: str | None = None,
     api_token: str | None = None,
 ):
     """Update a map's details
@@ -126,6 +127,10 @@ def update_map(
         public_access: Optional new public access setting
             Options are "private", "view_only", "view_and_comment",
             or "view_comment_and_edit"
+        basemap: The basemap to use for the map. Defaults to "default".
+               Valid values are "default", "light", "dark", "satellite",
+               a valid raster tile URL with {x}, {y}, and {z} parameters,
+               or a hex color string like #ff0000.
         api_token: Optional API token
 
     Returns:
@@ -138,6 +143,8 @@ def update_map(
         json_args["description"] = description
     if public_access is not None:
         json_args["public_access"] = public_access
+    if basemap is not None:
+        json_args["basemap"] = basemap
 
     response = make_request(
         url=MAP_UPDATE.format(map_id=map_id),
