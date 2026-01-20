@@ -15,10 +15,10 @@ def list_library_layers(source: str = "workspace", api_token: str | None = None)
 
     Args:
         source: The source of library layers to list.
-                Options are:
-                - "workspace": list layers from your workspace library (default)
-                - "felt": list layers from the Felt data library
-                - "all": list layers from both sources
+            Options are:
+            - "workspace": list layers from your workspace library (default)
+            - "felt": list layers from the Felt data library
+            - "all": list layers from both sources
         api_token: Optional API token
 
     Returns:

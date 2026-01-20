@@ -64,9 +64,9 @@ def update_layer_groups(
 
     Args:
         map_id: The ID of the map containing the layer groups
-        layer_group_params_list: List of layer group parameters to update
-                               Each dict must contain at least "name" key
-                               Optional keys include "id", "caption", "ordering_key"
+        layer_group_params_list: List of layer group parameters to update.
+            Each dict must contain at least "name" key.
+            Optional keys include "id", "caption", "ordering_key".
         api_token: Optional API token
 
     Returns:

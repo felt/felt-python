@@ -35,22 +35,22 @@ def create_map(
         title: The title to be used for the map. Defaults to "Untitled Map"
         description: A description to display in the map legend
         public_access: The level of access to grant to the map.
-                     Options are "private", "view_only", "view_and_comment",
-                     or "view_comment_and_edit". Defaults to "view_only".
+            Options are "private", "view_only", "view_and_comment",
+            or "view_comment_and_edit". Defaults to "view_only".
         basemap: The basemap to use for the new map. Defaults to "default".
-               Valid values are "default", "light", "dark", "satellite",
-               a valid raster tile URL with {x}, {y}, and {z} parameters,
-               or a hex color string like #ff0000.
+            Valid values are "default", "light", "dark", "satellite",
+            a valid raster tile URL with {x}, {y}, and {z} parameters,
+            or a hex color string like #ff0000.
         lat: If no data has been uploaded to the map, the initial latitude
             to center the map display on.
         lon: If no data has been uploaded to the map, the initial longitude
             to center the map display on.
         zoom: If no data has been uploaded to the map, the initial zoom level
-             for the map to display.
+            for the map to display.
         layer_urls: An array of urls to use to create layers in the map.
-                   Only tile URLs for raster layers are supported at the moment.
+            Only tile URLs for raster layers are supported at the moment.
         workspace_id: The workspace to create the map in.
-                     Defaults to the latest used workspace.
+            Defaults to the latest used workspace.
         api_token: Optional API token
 
     Returns:
@@ -215,8 +215,8 @@ def create_embed_token(
     Args:
         map_id: The ID of the map to create an embed token for
         user_email: Optionally assign the token to a user email address.
-                   Providing an email will enable the viewer to export data
-                   if the Map allows it.
+            Providing an email will enable the viewer to export data
+            if the Map allows it.
         api_token: Optional API token
 
     Returns:
@@ -241,11 +241,11 @@ def add_source_layer(
 
     Args:
         map_id: The ID of the map to add the layer to
-        source_layer_params: Parameters defining the source layer to add
-                           Must include "from" key with one of these values:
-                           - "dataset": requires "dataset_id"
-                           - "sql": requires "source_id" and "query"
-                           - "stac": requires "source_id" and "stac_asset_url"
+        source_layer_params: Parameters defining the source layer to add.
+            Must include "from" key with one of these values:
+            - "dataset": requires "dataset_id"
+            - "sql": requires "source_id" and "query"
+            - "stac": requires "source_id" and "stac_asset_url"
         api_token: Optional API token
 
     Returns:
@@ -273,9 +273,9 @@ def duplicate_map(
         map_id: The ID of the map to duplicate
         title: Optional title for the duplicated map
         project_id: The ID of the project to place the duplicated map in
-                   (mutually exclusive with folder_id)
+            (mutually exclusive with folder_id)
         folder_id: The ID of the folder to place the duplicated map in
-                  (mutually exclusive with project_id)
+            (mutually exclusive with project_id)
         api_token: Optional API token
 
     Returns:

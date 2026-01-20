@@ -296,10 +296,10 @@ def update_layers(
 
     Args:
         map_id: The ID of the map containing the layers
-        layer_params_list: List of layer parameters to update
-                           Each dict must contain at least an "id" key
-                           Optional keys include "name", "caption",
-                           "metadata", "ordering_key", "refresh_period"
+        layer_params_list: List of layer parameters to update.
+            Each dict must contain at least an "id" key.
+            Optional keys include "name", "caption",
+            "metadata", "ordering_key", "refresh_period".
         api_token: Optional API token
 
     Returns:
@@ -371,10 +371,10 @@ def create_custom_export(
         map_id: The ID of the map containing the layer
         layer_id: The ID of the layer to export
         output_format: The format to export in.
-                     Options are "csv", "gpkg", or "geojson"
+            Options are "csv", "gpkg", or "geojson"
         filters: Optional list of filters in Felt Style Language filter format
         email_on_completion: Whether to send an email when the export completes.
-                           Defaults to True.
+            Defaults to True.
         api_token: Optional API token
 
     Returns:
@@ -433,12 +433,12 @@ def duplicate_layers(
 
     Args:
         duplicate_params: List of layer duplication parameters. Each dict must contain:
-                        - For duplicating a single layer:
-                          - "source_layer_id": ID of the layer to duplicate
-                          - "destination_map_id": ID of the map to duplicate to
-                        - For duplicating a layer group:
-                          - "source_layer_group_id": ID of the layer group to duplicate
-                          - "destination_map_id": ID of the map to duplicate to
+            - For duplicating a single layer:
+              - "source_layer_id": ID of the layer to duplicate
+              - "destination_map_id": ID of the map to duplicate to
+            - For duplicating a layer group:
+              - "source_layer_group_id": ID of the layer group to duplicate
+              - "destination_map_id": ID of the map to duplicate to
         api_token: Optional API token
 
     Returns:
