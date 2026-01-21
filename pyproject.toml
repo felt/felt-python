@@ -5,9 +5,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "felt-python"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
   { name="Álvaro Arredondo", email="alvaro@felt.com" },
+  { name="Vince Foley", email="vince@felt.com" },
   { name="Chris Loer", email="chris@felt.com" },
 ]
 description = "The official Felt API client library"
