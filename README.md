@@ -97,7 +97,7 @@ from felt_python import refresh_file_layer
 refresh_file_layer(
     map_id=map_id,
     layer_id=layer_id,
-    file_path="path/to/new_file.csv",
+    file_name="path/to/new_file.csv",
 )
 ```
 
