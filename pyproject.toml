@@ -28,3 +28,9 @@ Documentation = "https://developers.felt.com"
 
 [tool.ruff]
 extend-exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+# Pin to ruff's pre-0.16 default rules: CI installs the latest ruff, and the
+# 0.16 release widened the default selection (import sorting, datetime
+# timezone checks, ...) in a way that flags most of the existing codebase.
+select = ["E4", "E7", "E9", "F"]
