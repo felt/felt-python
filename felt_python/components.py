@@ -54,7 +54,7 @@ def create_layer_component(
             component takes either a feature count
             ({"aggregate": "count"}) or an attribute aggregation
             ({"aggregate": "avg", "aggregate_by": "some_attribute"}).
-        title: Optional display title
+        title: Optional display title (max 256 characters)
         config: Optional component configuration. Common keys include
             "reactive" (whether the component reacts to other components'
             selections) and "viewport_mode" ("global" or "viewport").
@@ -125,7 +125,7 @@ def update_layer_component(
         data: Optionally change how the component computes its result.
             Replaces the current value as a unit when provided; partial
             updates are not supported.
-        title: Optional new display title
+        title: Optional new display title (max 256 characters)
         config: Optional component configuration updates. Provided keys are
             updated; omitted keys keep their current value.
         api_token: Optional API token

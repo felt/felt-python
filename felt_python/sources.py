@@ -150,7 +150,11 @@ def create_source_credential(
             fields, e.g.:
             - {"type": "aws_assume_role", "role_arn": ..., "role_session_name": ...}
             - {"type": "azure_storage_connection_string", "connection_string": ...}
-            - {"type": "custom_headers", "headers": [{"name": ..., "value": ...}]}
+            - {"type": "custom_headers", "headers": [{"name": ..., "value": ...,
+               "sensitive": ...}]}
+              ("sensitive" is required on every header entry: a sensitive
+              header's value is returned as "felt:redacted" when the
+              credential is read back)
             - {"type": "gcp_service_account_json", "service_account_filename": ...,
                "service_account_json": ...}
             - {"type": "key_pair", "private_key_name": ..., "private_key": ...,
