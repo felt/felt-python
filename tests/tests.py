@@ -16,6 +16,7 @@ from layer_groups_test import FeltLayerGroupsTest
 from library_test import FeltLibraryTest
 from projects_test import FeltProjectsTest
 from sources_test import FeltSourcesTest
+from components_test import FeltComponentsTest
 from delete_test import FeltDeleteTest
 
 
@@ -39,6 +40,7 @@ if __name__ == "__main__":
         FeltLibraryTest,
         FeltProjectsTest,
         FeltSourcesTest,
+        FeltComponentsTest,
         FeltDeleteTest,
     ]
 

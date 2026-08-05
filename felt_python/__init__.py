@@ -67,6 +67,16 @@ from .sources import (
     update_source,
     delete_source,
     sync_source,
+    create_source_credential,
+    update_source_credential,
+    delete_source_credential,
+)
+from .components import (
+    list_layer_components,
+    create_layer_component,
+    get_layer_component,
+    update_layer_component,
+    delete_layer_component,
 )
 from .library import list_library_layers
 from .comments import export_comments, resolve_comment, delete_comment
@@ -138,6 +148,15 @@ __all__ = [
     "update_source",
     "delete_source",
     "sync_source",
+    "create_source_credential",
+    "update_source_credential",
+    "delete_source_credential",
+    # Layer components
+    "list_layer_components",
+    "create_layer_component",
+    "get_layer_component",
+    "update_layer_component",
+    "delete_layer_component",
     # Library
     "list_library_layers",
     # Comments

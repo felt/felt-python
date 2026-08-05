@@ -66,7 +66,8 @@ def update_layer_groups(
         map_id: The ID of the map containing the layer groups
         layer_group_params_list: List of layer group parameters to update.
             Each dict must contain at least "name" key.
-            Optional keys include "id", "caption", "ordering_key".
+            Optional keys include "id", "caption", "subtitle", "ordering_key",
+            "legend_visibility" and "visibility_interaction".
         api_token: Optional API token
 
     Returns:
@@ -105,7 +106,9 @@ def update_layer_group(
     layer_group_id: str,
     name: str | None = None,
     caption: str | None = None,
+    subtitle: str | None = None,
     ordering_key: int | None = None,
+    legend_visibility: str | None = None,
     visibility_interaction: str | None = None,
     api_token: str | None = None,
 ):
@@ -116,9 +119,12 @@ def update_layer_group(
         layer_group_id: The ID of the layer group to update
         name: Optional new name for the layer group
         caption: Optional new caption for the layer group
+        subtitle: Optional new subtitle for the layer group
         ordering_key: Optional new ordering key for positioning
+        legend_visibility: Optional legend visibility setting
+                              ("show", "hide")
         visibility_interaction: Optional visibility interaction setting
-                              ("default", "slider")
+                              ("default", "slider", "select", "multi_select")
         api_token: Optional API token
 
     Returns:
@@ -130,8 +136,12 @@ def update_layer_group(
         json_payload["name"] = name
     if caption is not None:
         json_payload["caption"] = caption
+    if subtitle is not None:
+        json_payload["subtitle"] = subtitle
     if ordering_key is not None:
         json_payload["ordering_key"] = ordering_key
+    if legend_visibility is not None:
+        json_payload["legend_visibility"] = legend_visibility
     if visibility_interaction is not None:
         json_payload["visibility_interaction"] = visibility_interaction
 
