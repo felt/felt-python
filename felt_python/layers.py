@@ -298,8 +298,9 @@ def update_layers(
         map_id: The ID of the map containing the layers
         layer_params_list: List of layer parameters to update.
             Each dict must contain at least an "id" key.
-            Optional keys include "name", "caption",
-            "metadata", "ordering_key", "refresh_period".
+            Optional keys include "name", "subtitle", "caption",
+            "metadata", "layer_group_id", "ordering_key", "refresh_period",
+            "legend_display" and "legend_visibility".
         api_token: Optional API token
 
     Returns:
@@ -371,7 +372,8 @@ def create_custom_export(
         map_id: The ID of the map containing the layer
         layer_id: The ID of the layer to export
         output_format: The format to export in.
-            Options are "csv", "gpkg", or "geojson"
+            Options are "csv", "gpkg", "geojson", "geotiff", "pmtiles",
+            "shapefile", "kml", or "geoparquet"
         filters: Optional list of filters in Felt Style Language filter format
         email_on_completion: Whether to send an email when the export completes.
             Defaults to True.
