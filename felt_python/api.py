@@ -4,6 +4,7 @@ import http.client
 import json as json_
 import os
 import typing
+import urllib.parse
 import urllib.request
 from importlib.metadata import version, PackageNotFoundError
 
@@ -18,6 +19,36 @@ from .exceptions import AuthError
 
 
 BASE_URL = os.getenv("FELT_BASE_URL", "https://felt.com/api/v2/")
+
+
+def build_url(template: str, **path_params) -> str:
+    """Fill a URL template, percent-encoding each value as one path segment.
+
+    Ids reach these functions from user code, config files and other API
+    responses, so they cannot be assumed URL-safe. Interpolating them directly
+    means an id containing a space raises http.client.InvalidURL before the
+    request is sent, and one containing "?", "#" or "/" silently changes the
+    path or query the server sees. Encoding each value with safe="" keeps a
+    bad id a plain 404.
+
+        >>> build_url(BASE_URL + "maps/{map_id}", map_id="a b/c")
+        'https://felt.com/api/v2/maps/a%20b%2Fc'
+    """
+    return template.format(
+        **{
+            key: urllib.parse.quote(str(value), safe="")
+            for key, value in path_params.items()
+        }
+    )
+
+
+def build_query(url: str, **params) -> str:
+    """Append a percent-encoded query string, skipping None values."""
+    present = {key: value for key, value in params.items() if value is not None}
+    if not present:
+        return url
+    separator = "&" if "?" in url else "?"
+    return f"{url}{separator}{urllib.parse.urlencode(present)}"
 
 
 def make_request(

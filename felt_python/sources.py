@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_query, build_url, make_request
 
 
 SOURCES = urljoin(BASE_URL, "sources")
@@ -15,9 +15,7 @@ SOURCE_SYNC = urljoin(BASE_URL, "sources/{source_id}/sync")
 
 def list_sources(workspace_id: str | None = None, api_token: str | None = None):
     """List all sources accessible to the authenticated user"""
-    url = SOURCES
-    if workspace_id:
-        url = f"{url}?workspace_id={workspace_id}"
+    url = build_query(SOURCES, workspace_id=workspace_id)
     response = make_request(
         url=url,
         method="GET",
@@ -59,7 +57,7 @@ def create_source(
 def get_source(source_id: str, api_token: str | None = None):
     """Get details of a source"""
     response = make_request(
-        url=SOURCE.format(source_id=source_id),
+        url=build_url(SOURCE, source_id=source_id),
         method="GET",
         api_token=api_token,
     )
@@ -94,7 +92,7 @@ def update_source(
         json_payload["permissions"] = permissions
 
     response = make_request(
-        url=SOURCE_UPDATE.format(source_id=source_id),
+        url=build_url(SOURCE_UPDATE, source_id=source_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -105,7 +103,7 @@ def update_source(
 def delete_source(source_id: str, api_token: str | None = None):
     """Delete a source"""
     make_request(
-        url=SOURCE.format(source_id=source_id),
+        url=build_url(SOURCE, source_id=source_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -118,7 +116,7 @@ def sync_source(source_id: str, api_token: str | None = None):
         The source reference with synchronization status
     """
     response = make_request(
-        url=SOURCE_SYNC.format(source_id=source_id),
+        url=build_url(SOURCE_SYNC, source_id=source_id),
         method="POST",
         api_token=api_token,
     )

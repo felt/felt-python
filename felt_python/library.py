@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_query, make_request
 
 
 LIBRARY = urljoin(BASE_URL, "library")
@@ -24,7 +24,7 @@ def list_library_layers(source: str = "workspace", api_token: str | None = None)
     Returns:
         The layer library containing layers and layer groups
     """
-    url = f"{LIBRARY}?source={source}"
+    url = build_query(LIBRARY, source=source)
     response = make_request(
         url=url,
         method="GET",

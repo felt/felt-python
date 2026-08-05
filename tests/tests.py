@@ -17,6 +17,7 @@ from library_test import FeltLibraryTest
 from projects_test import FeltProjectsTest
 from sources_test import FeltSourcesTest
 from delete_test import FeltDeleteTest
+from url_building_test import BuildQueryTest, BuildUrlTest
 
 
 if __name__ == "__main__":
@@ -32,6 +33,8 @@ if __name__ == "__main__":
 
     # Add all test classes
     test_cases = [
+        BuildUrlTest,
+        BuildQueryTest,
         FeltAPITest,
         FeltElementsTest,
         FeltLayersTest,
