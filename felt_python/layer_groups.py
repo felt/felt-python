@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_url, make_request
 
 
 GROUPS = urljoin(BASE_URL, "maps/{map_id}/layer_groups")
@@ -25,7 +25,7 @@ def list_layer_groups(map_id: str, api_token: str | None = None):
         List of layer groups
     """
     response = make_request(
-        url=GROUPS.format(map_id=map_id),
+        url=build_url(GROUPS, map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -48,7 +48,7 @@ def get_layer_group(
         Layer group details
     """
     response = make_request(
-        url=GROUP.format(map_id=map_id, layer_group_id=layer_group_id),
+        url=build_url(GROUP, map_id=map_id, layer_group_id=layer_group_id),
         method="GET",
         api_token=api_token,
     )
@@ -74,7 +74,7 @@ def update_layer_groups(
         The updated layer groups
     """
     response = make_request(
-        url=GROUPS.format(map_id=map_id),
+        url=build_url(GROUPS, map_id=map_id),
         method="POST",
         json=layer_group_params_list,
         api_token=api_token,
@@ -95,7 +95,7 @@ def delete_layer_group(
         api_token: Optional API token
     """
     make_request(
-        url=GROUP.format(map_id=map_id, layer_group_id=layer_group_id),
+        url=build_url(GROUP, map_id=map_id, layer_group_id=layer_group_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -146,7 +146,7 @@ def update_layer_group(
         json_payload["visibility_interaction"] = visibility_interaction
 
     response = make_request(
-        url=GROUP.format(map_id=map_id, layer_group_id=layer_group_id),
+        url=build_url(GROUP, map_id=map_id, layer_group_id=layer_group_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -176,7 +176,7 @@ def publish_layer_group(
         json_payload["name"] = name
 
     response = make_request(
-        url=GROUPS_PUBLISH.format(map_id=map_id, layer_group_id=layer_group_id),
+        url=build_url(GROUPS_PUBLISH, map_id=map_id, layer_group_id=layer_group_id),
         method="POST",
         json=json_payload,
         api_token=api_token,

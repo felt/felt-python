@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_query, build_url, make_request
 
 
 PROJECTS = urljoin(BASE_URL, "projects/")
@@ -14,9 +14,7 @@ PROJECT_UPDATE = urljoin(BASE_URL, "projects/{project_id}/update")
 
 def list_projects(workspace_id: str | None = None, api_token: str | None = None):
     """List all projects accessible to the authenticated user"""
-    url = PROJECTS
-    if workspace_id:
-        url = f"{url}?workspace_id={workspace_id}"
+    url = build_query(PROJECTS, workspace_id=workspace_id)
     response = make_request(
         url=url,
         method="GET",
@@ -49,7 +47,7 @@ def create_project(name: str, visibility: str, api_token: str | None = None):
 def get_project(project_id: str, api_token: str | None = None):
     """Get details of a project"""
     response = make_request(
-        url=PROJECT.format(project_id=project_id),
+        url=build_url(PROJECT, project_id=project_id),
         method="GET",
         api_token=api_token,
     )
@@ -80,7 +78,7 @@ def update_project(
         json_args["visibility"] = visibility
 
     response = make_request(
-        url=PROJECT_UPDATE.format(project_id=project_id),
+        url=build_url(PROJECT_UPDATE, project_id=project_id),
         method="POST",
         json=json_args,
         api_token=api_token,
@@ -94,7 +92,7 @@ def delete_project(project_id: str, api_token: str | None = None):
     Note: This will delete all Folders and Maps inside the project!
     """
     make_request(
-        url=PROJECT.format(project_id=project_id),
+        url=build_url(PROJECT, project_id=project_id),
         method="DELETE",
         api_token=api_token,
     )

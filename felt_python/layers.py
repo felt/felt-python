@@ -10,7 +10,7 @@ import uuid
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_url, make_request
 from .util import deprecated
 
 
@@ -31,7 +31,7 @@ LAYER_DUPLICATE = urljoin(BASE_URL, "duplicate_layers")
 def list_layers(map_id: str, api_token: str | None = None):
     """List layers on a map"""
     response = make_request(
-        url=LAYERS.format(map_id=map_id),
+        url=build_url(LAYERS, map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -79,7 +79,7 @@ def upload_file(
         json_payload["zoom"] = zoom
 
     response = make_request(
-        url=LAYER_UPLOAD.format(map_id=map_id),
+        url=build_url(LAYER_UPLOAD, map_id=map_id),
         method="POST",
         api_token=api_token,
         json=json_payload,
@@ -147,7 +147,7 @@ def refresh_file_layer(
         The refresh response including presigned upload details
     """
     response = make_request(
-        url=LAYER_REFRESH.format(map_id=map_id, layer_id=layer_id),
+        url=build_url(LAYER_REFRESH, map_id=map_id, layer_id=layer_id),
         method="POST",
         api_token=api_token,
     )
@@ -186,7 +186,7 @@ def upload_url(
         json_payload["hints"] = hints
 
     response = make_request(
-        url=LAYER_UPLOAD.format(map_id=map_id),
+        url=build_url(LAYER_UPLOAD, map_id=map_id),
         method="POST",
         api_token=api_token,
         json=json_payload,
@@ -197,7 +197,8 @@ def upload_url(
 def refresh_url_layer(map_id: str, layer_id: str, api_token: str | None = None):
     """Refresh a layer originated from a URL upload"""
     response = make_request(
-        url=LAYER_REFRESH.format(
+        url=build_url(
+            LAYER_REFRESH,
             map_id=map_id,
             layer_id=layer_id,
         ),
@@ -219,7 +220,8 @@ def get_layer(
 ):
     """Get details of a layer"""
     response = make_request(
-        url=LAYER.format(
+        url=build_url(
+            LAYER,
             map_id=map_id,
             layer_id=layer_id,
         ),
@@ -237,7 +239,8 @@ def update_layer_style(
 ):
     """Update a layer's style"""
     response = make_request(
-        url=LAYER_UPDATE_STYLE.format(
+        url=build_url(
+            LAYER_UPDATE_STYLE,
             map_id=map_id,
             layer_id=layer_id,
         ),
@@ -258,7 +261,7 @@ def get_export_link(
     Vector layers will be downloaded in GPKG format. Raster layers will be GeoTIFFs.
     """
     response = make_request(
-        url=LAYER_EXPORT_LINK.format(map_id=map_id, layer_id=layer_id),
+        url=build_url(LAYER_EXPORT_LINK, map_id=map_id, layer_id=layer_id),
         method="GET",
         api_token=api_token,
     )
@@ -307,7 +310,7 @@ def update_layers(
         The updated layers
     """
     response = make_request(
-        url=LAYERS.format(map_id=map_id),
+        url=build_url(LAYERS, map_id=map_id),
         method="POST",
         json=layer_params_list,
         api_token=api_token,
@@ -322,7 +325,7 @@ def delete_layer(
 ):
     """Delete a layer from a map"""
     make_request(
-        url=LAYER.format(map_id=map_id, layer_id=layer_id),
+        url=build_url(LAYER, map_id=map_id, layer_id=layer_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -350,7 +353,7 @@ def publish_layer(
         json_payload["name"] = name
 
     response = make_request(
-        url=LAYER_PUBLISH.format(map_id=map_id, layer_id=layer_id),
+        url=build_url(LAYER_PUBLISH, map_id=map_id, layer_id=layer_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -391,7 +394,7 @@ def create_custom_export(
         json_payload["filters"] = filters
 
     response = make_request(
-        url=LAYER_CUSTOM_EXPORT.format(map_id=map_id, layer_id=layer_id),
+        url=build_url(LAYER_CUSTOM_EXPORT, map_id=map_id, layer_id=layer_id),
         method="POST",
         json=json_payload,
         api_token=api_token,
@@ -417,7 +420,8 @@ def get_custom_export_status(
         Export status including download URL when complete
     """
     response = make_request(
-        url=LAYER_CUSTOM_EXPORT_STATUS.format(
+        url=build_url(
+            LAYER_CUSTOM_EXPORT_STATUS,
             map_id=map_id,
             layer_id=layer_id,
             export_id=export_id,

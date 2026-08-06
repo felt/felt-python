@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_query, build_url, make_request
 from .util import deprecated
 
 
@@ -89,7 +89,7 @@ def create_map(
 def delete_map(map_id: str, api_token: str | None = None):
     """Delete a map"""
     make_request(
-        url=MAP.format(map_id=map_id),
+        url=build_url(MAP, map_id=map_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -98,7 +98,7 @@ def delete_map(map_id: str, api_token: str | None = None):
 def get_map(map_id: str, api_token: str | None = None):
     """Get details of a map"""
     response = make_request(
-        url=MAP.format(map_id=map_id),
+        url=build_url(MAP, map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -162,7 +162,7 @@ def update_map(
         json_args["viewer_permissions"] = viewer_permissions
 
     response = make_request(
-        url=MAP_UPDATE.format(map_id=map_id),
+        url=build_url(MAP_UPDATE, map_id=map_id),
         method="POST",
         json=json_args,
         api_token=api_token,
@@ -199,7 +199,7 @@ def move_map(
         json_args["folder_id"] = folder_id
 
     response = make_request(
-        url=MAP_MOVE.format(map_id=map_id),
+        url=build_url(MAP_MOVE, map_id=map_id),
         method="POST",
         json=json_args,
         api_token=api_token,
@@ -222,9 +222,7 @@ def create_embed_token(
     Returns:
         The created embed token with expiration time
     """
-    url = MAP_EMBED_TOKEN.format(map_id=map_id)
-    if user_email:
-        url = f"{url}?user_email={user_email}"
+    url = build_query(build_url(MAP_EMBED_TOKEN, map_id=map_id), user_email=user_email)
 
     response = make_request(
         url=url,
@@ -252,7 +250,7 @@ def add_source_layer(
         Acceptance status and links to the created resources
     """
     response = make_request(
-        url=MAP_ADD_SOURCE_LAYER.format(map_id=map_id),
+        url=build_url(MAP_ADD_SOURCE_LAYER, map_id=map_id),
         method="POST",
         json=source_layer_params,
         api_token=api_token,
@@ -294,7 +292,7 @@ def duplicate_map(
         json_args["destination"] = {"folder_id": folder_id}
 
     response = make_request(
-        url=MAP_DUPLICATE.format(map_id=map_id),
+        url=build_url(MAP_DUPLICATE, map_id=map_id),
         method="POST",
         json=json_args,
         api_token=api_token,

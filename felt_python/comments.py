@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_query, build_url, make_request
 
 
 COMMENT = urljoin(BASE_URL, "maps/{map_id}/comments/{comment_id}")
@@ -23,7 +23,7 @@ def export_comments(map_id: str, format: str = "json", api_token: str | None = N
     Returns:
         The exported comments in the specified format
     """
-    url = f"{COMMENT_EXPORT.format(map_id=map_id)}?format={format}"
+    url = build_query(build_url(COMMENT_EXPORT, map_id=map_id), format=format)
     response = make_request(
         url=url,
         method="GET",
@@ -44,7 +44,7 @@ def resolve_comment(map_id: str, comment_id: str, api_token: str | None = None):
         Confirmation of the resolved comment
     """
     response = make_request(
-        url=COMMENT_RESOLVE.format(map_id=map_id, comment_id=comment_id),
+        url=build_url(COMMENT_RESOLVE, map_id=map_id, comment_id=comment_id),
         method="POST",
         api_token=api_token,
     )
@@ -60,7 +60,7 @@ def delete_comment(map_id: str, comment_id: str, api_token: str | None = None):
         api_token: Optional API token
     """
     make_request(
-        url=COMMENT.format(map_id=map_id, comment_id=comment_id),
+        url=build_url(COMMENT, map_id=map_id, comment_id=comment_id),
         method="DELETE",
         api_token=api_token,
     )

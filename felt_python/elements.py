@@ -4,7 +4,7 @@ import json
 
 from urllib.parse import urljoin
 
-from .api import make_request, BASE_URL
+from .api import BASE_URL, build_url, make_request
 from .util import deprecated
 
 
@@ -25,7 +25,7 @@ def list_elements(map_id: str, api_token: str | None = None):
         GeoJSON FeatureCollection of all elements
     """
     response = make_request(
-        url=ELEMENTS.format(map_id=map_id),
+        url=build_url(ELEMENTS, map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -43,7 +43,7 @@ def list_element_groups(map_id: str, api_token: str | None = None):
         List of element groups
     """
     response = make_request(
-        url=ELEMENT_GROUPS.format(map_id=map_id),
+        url=build_url(ELEMENT_GROUPS, map_id=map_id),
         method="GET",
         api_token=api_token,
     )
@@ -62,7 +62,7 @@ def get_element_group(map_id: str, element_group_id: str, api_token: str | None 
         GeoJSON FeatureCollection of all elements in the group
     """
     response = make_request(
-        url=ELEMENT_GROUP.format(map_id=map_id, element_group_id=element_group_id),
+        url=build_url(ELEMENT_GROUP, map_id=map_id, element_group_id=element_group_id),
         method="GET",
         api_token=api_token,
     )
@@ -106,7 +106,7 @@ def upsert_elements(
             "geojson_feature_collection must be a valid GeoJSON"
         )
     response = make_request(
-        url=ELEMENTS.format(map_id=map_id),
+        url=build_url(ELEMENTS, map_id=map_id),
         method="POST",
         json=geojson_feature_collection,
         api_token=api_token,
@@ -123,7 +123,7 @@ def delete_element(map_id: str, element_id: str, api_token: str | None = None):
         api_token: Optional API token
     """
     make_request(
-        url=ELEMENT.format(map_id=map_id, element_id=element_id),
+        url=build_url(ELEMENT, map_id=map_id, element_id=element_id),
         method="DELETE",
         api_token=api_token,
     )
@@ -159,7 +159,7 @@ def upsert_element_groups(
         The created or updated element groups
     """
     response = make_request(
-        url=ELEMENT_GROUPS.format(map_id=map_id),
+        url=build_url(ELEMENT_GROUPS, map_id=map_id),
         method="POST",
         json=element_groups,
         api_token=api_token,
