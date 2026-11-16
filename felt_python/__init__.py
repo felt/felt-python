@@ -11,7 +11,7 @@ from .maps import (
     # Deprecated
     get_map_details,
 )
-from .exceptions import AuthError
+from .exceptions import AuthError, ExportFailedError, ExportTimeoutError
 from .layers import (
     list_layers,
     upload_file,
@@ -167,6 +167,8 @@ __all__ = [
     "get_current_user",
     # Exceptions
     "AuthError",
+    "ExportFailedError",
+    "ExportTimeoutError",
     # Deprecated
     "post_elements",
     "post_element_group",

@@ -4,6 +4,7 @@ import io
 import json
 import os
 import tempfile
+import time
 import typing
 import urllib.request
 import uuid
@@ -11,6 +12,7 @@ import uuid
 from urllib.parse import urljoin
 
 from .api import make_request, BASE_URL
+from .exceptions import ExportFailedError, ExportTimeoutError
 from .util import deprecated
 
 
@@ -26,6 +28,10 @@ LAYER_CUSTOM_EXPORT_STATUS = urljoin(
     BASE_URL, "maps/{map_id}/layers/{layer_id}/custom_exports/{export_id}"
 )
 LAYER_DUPLICATE = urljoin(BASE_URL, "duplicate_layers")
+
+EXPORT_WAIT_TIMEOUT_SECONDS = 600
+EXPORT_POLL_INITIAL_INTERVAL_SECONDS = 2.0
+EXPORT_POLL_MAX_INTERVAL_SECONDS = 15.0
 
 
 def list_layers(map_id: str, api_token: str | None = None):
@@ -252,17 +258,47 @@ def get_export_link(
     map_id: str,
     layer_id: str,
     api_token: str | None = None,
+    timeout: float = EXPORT_WAIT_TIMEOUT_SECONDS,
 ):
     """Get a download link for a layer
 
     Vector layers will be downloaded in GPKG format. Raster layers will be GeoTIFFs.
+
+    A large layer can take longer to export than the API waits. In that case
+    this keeps polling the export until it finishes, for up to `timeout` seconds.
+
+    Raises:
+        ExportFailedError: The export failed.
+        ExportTimeoutError: The export didn't finish within `timeout` seconds.
+            The export keeps running; the error's `poll_endpoint` reports it.
     """
     response = make_request(
         url=LAYER_EXPORT_LINK.format(map_id=map_id, layer_id=layer_id),
         method="GET",
         api_token=api_token,
     )
-    return json.load(response)["export_link"]
+    body = json.load(response)
+    if "export_link" in body:
+        return body["export_link"]
+    return _wait_for_export(body["poll_endpoint"], api_token, timeout)
+
+
+def _wait_for_export(poll_endpoint: str, api_token: str | None, timeout: float) -> str:
+    deadline = time.monotonic() + timeout
+    interval = EXPORT_POLL_INITIAL_INTERVAL_SECONDS
+    while True:
+        status = json.load(
+            make_request(url=poll_endpoint, method="GET", api_token=api_token)
+        )
+        if status["status"] == "completed" and status.get("download_url"):
+            return status["download_url"]
+        if status["status"] == "failed":
+            raise ExportFailedError(poll_endpoint)
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise ExportTimeoutError(poll_endpoint, timeout)
+        time.sleep(min(interval, remaining))
+        interval = min(interval * 1.5, EXPORT_POLL_MAX_INTERVAL_SECONDS)
 
 
 def download_layer(
@@ -270,14 +306,16 @@ def download_layer(
     layer_id: str,
     file_name: str | None = None,
     api_token: str | None = None,
+    timeout: float = EXPORT_WAIT_TIMEOUT_SECONDS,
 ) -> str:
     """Download a layer to a file.
 
     Vector layers will be downloaded in GPKG format. Raster layers will be GeoTIFFs.
     If a specific file name is not provided, the default file name will be saved to
-    the current working directory.
+    the current working directory. Waits up to `timeout` seconds for a slow export,
+    as `get_export_link` does.
     """
-    export_link = get_export_link(map_id, layer_id, api_token)
+    export_link = get_export_link(map_id, layer_id, api_token, timeout)
     with urllib.request.urlopen(export_link) as response:
         if file_name is None:
             parsed_url = urllib.parse.urlparse(response.url)

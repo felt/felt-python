@@ -18,6 +18,7 @@ from projects_test import FeltProjectsTest
 from sources_test import FeltSourcesTest
 from components_test import FeltComponentsTest
 from delete_test import FeltDeleteTest
+from export_link_test import FeltExportLinkTest
 
 
 if __name__ == "__main__":
@@ -42,6 +43,7 @@ if __name__ == "__main__":
         FeltSourcesTest,
         FeltComponentsTest,
         FeltDeleteTest,
+        FeltExportLinkTest,
     ]
 
     for test_case in test_cases:
