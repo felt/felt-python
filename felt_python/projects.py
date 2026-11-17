@@ -7,8 +7,8 @@ from urllib.parse import urljoin
 from .api import make_request, BASE_URL
 
 
-PROJECTS = urljoin(BASE_URL, "projects/")
-PROJECT = urljoin(BASE_URL, "projects/{project_id}/")
+PROJECTS = urljoin(BASE_URL, "projects")
+PROJECT = urljoin(BASE_URL, "projects/{project_id}")
 PROJECT_UPDATE = urljoin(BASE_URL, "projects/{project_id}/update")
 
 
